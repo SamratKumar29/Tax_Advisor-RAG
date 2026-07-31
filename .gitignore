@@ -1,0 +1,28 @@
+# Virtual environment
+venv/
+.venv/
+
+# Environment secrets
+.env
+
+# Indexes (large, regeneratable)
+indexes/
+
+# Raw PDFs (large binaries — keep processed/chunks.jsonl for reproducibility)
+data/raw/*.pdf
+data/raw/circulars/*.pdf
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
