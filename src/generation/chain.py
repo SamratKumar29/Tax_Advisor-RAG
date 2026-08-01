@@ -56,9 +56,15 @@ def _parse_response(raw: str) -> dict:
     }
 
 
-def answer(query: str) -> dict:
+def answer(query: str, api_key: str, base_url: str, model: str | None = None) -> dict:
     """
     Answer a user's tax question using hybrid retrieval + LLM generation.
+
+    Args:
+        query: The user's question.
+        api_key: LLM API key.
+        base_url: LLM API base URL.
+        model: Optional model override.
 
     Returns:
         {
@@ -76,7 +82,7 @@ def answer(query: str) -> dict:
     messages = build_messages(query, chunks)
 
     # 3. Call the LLM
-    raw_response = chat_completion(messages)
+    raw_response = chat_completion(messages, api_key=api_key, base_url=base_url, model=model)
 
     # 4. Parse the structured response
     parsed = _parse_response(raw_response)
