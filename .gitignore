@@ -5,8 +5,8 @@ venv/
 # Environment secrets
 .env
 
-# Indexes (large, regeneratable)
-indexes/
+# Index files are committed for Streamlit Community Cloud deployment
+# (indexes/ ~12MB, needed at runtime for retrieval)
 
 # Raw PDFs (large binaries — keep processed/chunks.jsonl for reproducibility)
 data/raw/*.pdf
