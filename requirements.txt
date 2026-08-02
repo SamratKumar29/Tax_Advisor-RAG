@@ -11,4 +11,3 @@ fastapi==0.115.*
 uvicorn==0.30.*
 python-dotenv==1.*
 openai==1.*
-tiktoken==0.7.*
