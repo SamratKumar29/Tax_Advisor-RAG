@@ -1,0 +1,337 @@
+[
+  {
+    "id": "q1_slabs",
+    "question": "What are the new tax regime slab rates for FY 2026-27?",
+    "ok": true,
+    "latency_s": 15.2,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 412,
+      "prompt_tokens": 1868,
+      "total_tokens": 2280,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.0001758,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0001758,
+        "upstream_inference_prompt_cost": 9.34e-05,
+        "upstream_inference_completions_cost": 8.24e-05
+      }
+    },
+    "answer": "Based on the provided context, the specific slab rates for the new tax regime under the Income-tax Act, 2025 for FY 2026-27 are **not explicitly listed** in the retrieved documents. The context only indicates that the new tax regime (Section 202 of the new Act, corresponding to old Section 115BAC) is the **default regime** for FY 2026-27 and offers \"concessional slab rates\" with \"limited deductions\" [4]. It also notes that Section 87A (rebate for individuals) is available under Section 202 (proviso) of the new Act [4], but the actual income slab thresholds and rates are not provided in the given material.\n\nFor the old regime, the context does not provide the slab rates either. The mapping table in the context covers only the section renumbering for return filing, house property deductions, and the general regime structure, but it does not include the detailed income tax slab rates for either regime [4].\n\nTherefore, I cannot provide the exact new tax regime slab rates for FY 2026-27 from the available context. The documents confirm that the new regime is the default and that the slab rates are concessional, but the specific rates and thresholds are not present in the retrieved material. You would need to consult the full Income-tax Act, 2025 or official government notifications for the complete slab schedule.",
+    "citation_check": {
+      "markers_used": [
+        4
+      ],
+      "invalid_markers": [],
+      "unsupported": [
+        {
+          "sentence": "It also notes that Section 87A (rebate for individuals) is available under Section 202 (proviso) of the new Act [4], but the actual income slab thresholds and rates are not provided in the given material.",
+          "claim": "Section 87A",
+          "cited": [
+            4
+          ]
+        }
+      ],
+      "uncited_figures": [],
+      "ok": false
+    },
+    "retrieved": [
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "section_mapping_1961_to_2025.md | ",
+      "section_mapping_1961_to_2025.md | "
+    ]
+  },
+  {
+    "id": "q2_sec123",
+    "question": "How much can I deduct under Section 123 (old 80C) and what qualifies?",
+    "ok": true,
+    "latency_s": 7.9,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 523,
+      "prompt_tokens": 2367,
+      "total_tokens": 2890,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.00022295,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.00022295,
+        "upstream_inference_prompt_cost": 0.00011835,
+        "upstream_inference_completions_cost": 0.0001046
+      }
+    },
+    "answer": "Under the Income-tax Act, 2025, the deduction for specified savings instruments is available under **Section 123** (which replaced Section 80C of the Income-tax Act, 1961). The aggregate deduction limit remains **₹1,50,000** for individuals or HUF [1, 3].\n\n**What qualifies:** The eligible instruments are now placed in **Schedule XV** of the Income-tax Act, 2025. The nature of qualifying payments remains unchanged in substance, including:\n- Life insurance premiums\n- Provident fund contributions\n- Tuition fees\n- Home loan principal repayment\n- Other specified savings instruments [3]\n\n**Important limitations to note:**\n1. **New Tax Regime restriction:** Deduction under Section 123 is **not allowed** under the new concessional tax regime under Section 202 [3].\n2. **Timely return filing requirement:** Timely furnishing of the return of income is mandatory for claiming deductions under Part C of Chapter VIII of the Income-tax Act, 2025, even if the income otherwise qualifies [3].\n3. **Reference for declarations:** For Tax Year 2026-27, investment declarations should reference the new provisions—i.e., **Schedule XV read with Section 123** of the Income-tax Act, 2025—rather than the old Section 80C numbering [4].\n\n**Section mapping for reference:**\n- Old Section 80C → New Section 123 (deduction for specified savings instruments, max ₹1,50,000) [1, 3]\n- Old Section 80CCE (merged into 80C) → Read with Section 123 [3]",
+    "citation_check": {
+      "markers_used": [
+        1,
+        3,
+        4
+      ],
+      "invalid_markers": [],
+      "unsupported": [
+        {
+          "sentence": "**Reference for declarations:** For Tax Year 2026-27, investment declarations should reference the new provisions—i.e., **Schedule XV read with Section 123** of the Income-tax Act, 2025—rather than the old Section 80C numbering [4].",
+          "claim": "Section 123",
+          "cited": [
+            4
+          ]
+        },
+        {
+          "sentence": "**Reference for declarations:** For Tax Year 2026-27, investment declarations should reference the new provisions—i.e., **Schedule XV read with Section 123** of the Income-tax Act, 2025—rather than the old Section 80C numbering [4].",
+          "claim": "Section 80C",
+          "cited": [
+            4
+          ]
+        }
+      ],
+      "uncited_figures": [
+        "Under the Income-tax Act, 2025, the deduction for specified savings instruments is available under **Section 123** (which replaced Section 80C of the Income-tax Act, 1961)."
+      ],
+      "ok": false
+    },
+    "retrieved": [
+      "section_mapping_1961_to_2025.md | ",
+      "income_tax_rules_2026.pdf | Rule 210",
+      "faq_transition_1961_to_2025.pdf | ",
+      "section_mapping_1961_to_2025.md | ",
+      "faq_transition_1961_to_2025.pdf | "
+    ]
+  },
+  {
+    "id": "q3_hra",
+    "question": "How does HRA exemption work?",
+    "ok": true,
+    "latency_s": 9.9,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 420,
+      "prompt_tokens": 2467,
+      "total_tokens": 2887,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.00020735,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.00020735,
+        "upstream_inference_prompt_cost": 0.00012335,
+        "upstream_inference_completions_cost": 8.4e-05
+      }
+    },
+    "answer": "Based on the provided context, the HRA (House Rent Allowance) exemption is governed by the new Income-tax Act, 2025, which replaced the old Act, 1961. The exemption rules are mapped as follows:\n\n- Under the old Act, 1961, HRA exemption was provided under **Section 10(13A)**. Under the new Act, 2025, the same exemption is now provided under **Section 15(2) / Schedule I** [2].\n- The exemption is calculated as the **least of**:\n  1. Actual HRA received,\n  2. Rent paid minus 10% of salary, and\n  3. 50% of salary (for non-metropolitan cities) or 40% of salary (for metropolitan cities) [2].\n\nNote: The context does not provide the exact definition of \"salary\" or the precise formula for computing the 10% of salary or the 50%/40% thresholds. It only states that the exemption follows the least-of rule. For detailed computation, you should refer to the full text of Section 15(2) / Schedule I of the Income-tax Act, 2025, or consult a qualified Chartered Accountant.\n\nAlso, the context mentions that the standard deduction from salary under the new regime is ₹75,000 (mapped from old Section 16(ia) to new Section 19(b)) [2]. However, this is a separate deduction and is not part of the HRA exemption calculation itself.",
+    "citation_check": {
+      "markers_used": [
+        2
+      ],
+      "invalid_markers": [],
+      "unsupported": [],
+      "uncited_figures": [
+        "- Under the old Act, 1961, HRA exemption was provided under **Section 10(13A)**.",
+        "For detailed computation, you should refer to the full text of Section 15(2) / Schedule I of the Income-tax Act, 2025, or consult a qualified Chartered Accountant."
+      ],
+      "ok": true
+    },
+    "retrieved": [
+      "income_tax_rules_2026.pdf | Rule 219",
+      "section_mapping_1961_to_2025.md | ",
+      "act_2025_full_text.pdf | Section 263",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | "
+    ]
+  },
+  {
+    "id": "q4_regime",
+    "question": "Should I pick the old or new tax regime?",
+    "ok": true,
+    "latency_s": 13.3,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 980,
+      "prompt_tokens": 1947,
+      "total_tokens": 2927,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.00029335,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.00029335,
+        "upstream_inference_prompt_cost": 9.735e-05,
+        "upstream_inference_completions_cost": 0.000196
+      }
+    },
+    "answer": "Based on the provided context, I cannot recommend a single \"old\" or \"new\" tax regime for you, as the choice depends on your specific income, deductions, and financial profile. The context confirms that the new tax regime continues in the Income-tax Act, 2025, but it does not provide the detailed slab rates, deduction limits, or comparison figures needed to calculate which regime would be more beneficial for your situation.\n\nHere is what the context tells us about the regime structure:\n\n1. **New tax regime continues**: Under the Income-tax Act, 2025, the new tax regime is provided under Section 202 and is available for Individuals, HUFs, Associations of Persons (other than a cooperative society), Bodies of Individuals (whether incorporated or not), and Artificial Juridical Persons referred to in Section 2(77)(g) [1]. In the new Act, the new regime is the default tax regime, and the option to opt out of it is available to taxpayers [1].\n\n2. **Continuity of opted-in regime**: If you had opted for the new tax regime under the Income-tax Act, 1961, you do not have to opt for it again in the new Income-tax Act, 2025. An option exercised under a provision of the old Act is treated as if it was made under the equivalent provision of the new Act [1]. Similarly, if you had chosen a particular tax option under the old Act (such as a special tax scheme), that choice carries over automatically, subject to the saving clause and the scope preserved by the new law [3].\n\n3. **No change in accounting periods**: The \"Tax Year\" concept is aligned with the Financial Year (1 April to 31 March), so no change in accounting year or financial statements is required for businesses or other taxpayers [1].\n\n4. **Transition-year record-keeping**: For the transition year, taxpayers should maintain clear demarcation of income, expenses, TDS, and advance tax between FY 2025-26 (governed by the old Act) and FY 2026-27 (governed by the new Act), ensure challans correctly reflect the applicable AY or Tax Year, reconcile Form 26AS separately for each year, keep a section-mapping reference handy, and file returns well before due dates [2].\n\n5. **Deductions and business income**: The context notes that for tax years beginning on or after 1 April 2026, business income is computed under the Income-tax Act, 2025, even if a deduction is grandfathered from the Income-tax Act, 1961. The right to claim a deduction may come from the old regime, but the profit figure on which it is calculated comes from the new regime [4]. For example, if an undertaking eligible under Section 80-IA has two years of deduction remaining after 01.04.2026, and the recomputed business profit under the new Act is Rs 8 crore instead of Rs 8.5 crore under the old Act, the deduction will apply to Rs 8 crore and not Rs 8.5 crore [4].\n\nTo decide between the old and new regime, you would need to compare:\n- Your total income under both regimes\n- Available deductions (e.g., Section 80C, 80D, etc.) under the old regime\n- The new regime's lower tax rates and reduced deduction options\n- Any transitional options you may already have exercised\n\nSince the provided context does not include the specific slab rates, deduction limits, or a comparison framework for FY 2026-27 / AY 2027-28, I cannot calculate which regime is more beneficial for you. You should gather your income and deduction details and consult a qualified Chartered Accountant (CA) to run the numbers under both regimes.",
+    "citation_check": {
+      "markers_used": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "invalid_markers": [],
+      "unsupported": [],
+      "uncited_figures": [
+        "- Available deductions (e.g., Section 80C, 80D, etc.) under the old regime"
+      ],
+      "ok": true
+    },
+    "retrieved": [
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | "
+    ]
+  },
+  {
+    "id": "q5_fy2425",
+    "question": "What was the income tax slab for FY 2024-25?",
+    "ok": true,
+    "latency_s": 7.6,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 520,
+      "prompt_tokens": 1866,
+      "total_tokens": 2386,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.0001973,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0001973,
+        "upstream_inference_prompt_cost": 9.33e-05,
+        "upstream_inference_completions_cost": 0.000104
+      }
+    },
+    "answer": "Based on the provided context documents, there is no information available regarding the income tax slab for FY 2024-25. The retrieved context focuses on the transition from the Income-tax Act, 1961 to the Income-tax Act, 2025, the terminology changes (Previous Year/Assessment Year vs. Tax Year), compliance timelines, and the alignment of the Tax Year with the Financial Year. It does not contain any details about tax slabs, rates, or deductions for FY 2024-25 (which corresponds to Assessment Year 2025-26 under the old Act).\n\nThe context does clarify the following relevant points:\n- FY 2024-25 under the old Act corresponds to Assessment Year 2025-26 [1].\n- Income earned during FY 2025-26 is governed by the Income-tax Act, 1961 and assessed in AY 2026-27 [4].\n- Income earned from 01 April 2026 onwards is governed by the Income-tax Act, 2025 and assessed for Tax Year 2026-27 [4].\n- The due date for filing the return for Tax Year 2026-27 is after the end of the Tax Year, with options such as 31 July 2027, 31 August 2027, 31 October 2027, or 30 November 2027 [2].\n- AY 2026-27 and Tax Year 2026-27 are two entirely separate compliance obligations [3].\n\nSince the question asks for the income tax slab for FY 2024-25, and the provided context does not contain slab information, I cannot provide a specific slab or rate from these documents. You would need to refer to the official Income-tax Act, 1961 provisions or the relevant notifications for FY 2024-25 (AY 2025-26) for the applicable slab rates.",
+    "citation_check": {
+      "markers_used": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "invalid_markers": [],
+      "unsupported": [],
+      "uncited_figures": [],
+      "ok": true
+    },
+    "retrieved": [
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "income_tax_rules_2026.pdf | Rule 164"
+    ]
+  },
+  {
+    "id": "q6_80c_map",
+    "question": "What is Section 80C called now in the new Act?",
+    "ok": true,
+    "latency_s": 3.9,
+    "model_used": "upstage/solar-mini4",
+    "usage": {
+      "completion_tokens": 271,
+      "prompt_tokens": 2286,
+      "total_tokens": 2557,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": null,
+        "image_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost": 0.0001685,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.0001685,
+        "upstream_inference_prompt_cost": 0.0001143,
+        "upstream_inference_completions_cost": 5.42e-05
+      }
+    },
+    "answer": "Under the Income-tax Act, 2025, Section 80C of the old Income-tax Act, 1961 is now called **Section 123**. It covers deductions for life insurance, PPF, ELSS, NSC, tuition fees, home loan principal, etc., with a maximum aggregate deduction of ₹1,50,000 [1]. The eligible instruments are now placed in **Schedule XV** of the Act, and the deduction remains structurally similar to Section 80C read with 80CCE of the old Act [2]. However, note that this deduction under Section 123 is **not allowed under the new concessional tax regime** under Section 202 [2].",
+    "citation_check": {
+      "markers_used": [
+        1,
+        2
+      ],
+      "invalid_markers": [],
+      "unsupported": [],
+      "uncited_figures": [
+        "Under the Income-tax Act, 2025, Section 80C of the old Income-tax Act, 1961 is now called **Section 123**."
+      ],
+      "ok": true
+    },
+    "retrieved": [
+      "section_mapping_1961_to_2025.md | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "section_mapping_1961_to_2025.md | ",
+      "faq_transition_1961_to_2025.pdf | ",
+      "faq_transition_1961_to_2025.pdf | "
+    ]
+  }
+]

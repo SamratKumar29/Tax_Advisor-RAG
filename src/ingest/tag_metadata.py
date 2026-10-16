@@ -102,29 +102,38 @@ TOPIC_KEYWORDS: dict[str, list[str]] = {
 }
 
 
+def _keyword_pattern(keyword: str) -> re.Pattern:
+    """
+    Compile a topic keyword (which may itself be a regex) with alphanumeric
+    boundaries, so "section 19" does not match "section 192" and "192" does
+    not match "1925". Invalid regexes fall back to an escaped literal.
+    """
+    kw = keyword.lower()
+    try:
+        re.compile(kw)
+    except re.error:
+        kw = re.escape(kw)
+    return re.compile(rf"(?<![a-z0-9])(?:{kw})(?![a-z0-9])")
+
+
+_TOPIC_PATTERNS: dict[str, list[re.Pattern]] = {
+    topic: [_keyword_pattern(k) for k in keywords]
+    for topic, keywords in TOPIC_KEYWORDS.items()
+}
+
+
 def _match_topic(text: str) -> str:
     """
-    Match chunk text against topic keywords. Returns the first matching
-    topic, or 'general' if no specific topic matches.
-
-    Uses case-insensitive regex matching for flexibility.
+    Score each topic by how many of its keywords occur in the text (with
+    alphanumeric boundaries). Returns the highest-scoring topic, or 'general'
+    if none match. Ties keep the topic listed first in TOPIC_KEYWORDS.
     """
     text_lower = text.lower()
 
     best_topic = "general"
     best_score = 0
-
-    for topic, keywords in TOPIC_KEYWORDS.items():
-        score = 0
-        for keyword in keywords:
-            try:
-                if re.search(keyword.lower(), text_lower):
-                    score += 1
-            except re.error:
-                # If regex fails, try plain substring match
-                if keyword.lower() in text_lower:
-                    score += 1
-
+    for topic, patterns in _TOPIC_PATTERNS.items():
+        score = sum(1 for p in patterns if p.search(text_lower))
         if score > best_score:
             best_score = score
             best_topic = topic
@@ -132,8 +141,17 @@ def _match_topic(text: str) -> str:
     return best_topic
 
 
+# Author-written material derived from primary sources but not itself official.
+CURATED_SOURCES = {
+    "section_mapping_1961_to_2025.md",
+}
+
+
 def _determine_source_type(source_doc: str) -> str:
-    """Determine if a source document is primary or supplementary."""
+    """Determine if a source document is primary, curated or supplementary."""
+    for cur in CURATED_SOURCES:
+        if cur in source_doc:
+            return "curated"
     for supp in SUPPLEMENTARY_SOURCES:
         if supp in source_doc:
             return "supplementary"

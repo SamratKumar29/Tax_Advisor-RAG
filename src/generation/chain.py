@@ -5,9 +5,18 @@ This is the single entry point for answering a user question.
 """
 
 import re
-from src.retrieval.hybrid import search as hybrid_search
-from src.generation.prompt_templates import build_messages, format_context
+from typing import Callable
+
+from src.config import MAX_QUERY_CHARS
+from src.generation.citations import verify_citations
+from src.generation.prompt_templates import build_messages
 from src.llm_client import chat_completion
+
+
+def hybrid_search(query: str) -> list[dict]:
+    """Lazy import so the chain can be used/tested without loading indexes."""
+    from src.retrieval.hybrid import search
+    return search(query)
 
 
 DISCLAIMER = (
@@ -18,7 +27,7 @@ DISCLAIMER = (
 )
 
 
-def _parse_response(raw: str) -> dict:
+def _parse_response(raw: str | None) -> dict:
     """
     Parse the structured LLM response into answer, sources, disclaimer.
 
@@ -32,6 +41,7 @@ def _parse_response(raw: str) -> dict:
 
     Falls back gracefully if the model doesn't follow format exactly.
     """
+    raw = raw or ""
     answer = raw
     sources_text = ""
     disclaimer = DISCLAIMER
@@ -56,7 +66,9 @@ def _parse_response(raw: str) -> dict:
     }
 
 
-def answer(query: str, api_key: str, base_url: str, model: str | None = None) -> dict:
+def answer(query: str, api_key: str, base_url: str, model: str | None = None,
+           retriever: Callable[[str], list[dict]] | None = None,
+           llm: Callable[..., dict] | None = None) -> dict:
     """
     Answer a user's tax question using hybrid retrieval + LLM generation.
 
@@ -65,6 +77,8 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None) ->
         api_key: LLM API key.
         base_url: LLM API base URL.
         model: Optional model override.
+        retriever: Optional retrieval function (defaults to hybrid search).
+        llm: Optional chat-completion function (defaults to llm_client).
 
     Returns:
         {
@@ -73,29 +87,48 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None) ->
             "disclaimer": str,      # Standing disclaimer
             "retrieved_chunks": list,  # Actual retrieved chunks (ground truth)
             "raw_response": str,    # Full raw LLM response
+            "model_used": str,      # Model that actually answered
+            "usage": dict | None,   # Token usage if reported
+            "citation_check": dict, # See src.generation.citations.verify_citations
         }
+
+    Raises:
+        ValueError: if the query is empty or longer than MAX_QUERY_CHARS.
+        LLMUnavailableError: if every candidate model failed.
     """
+    query = (query or "").strip()
+    if not query:
+        raise ValueError("Query is empty.")
+    if len(query) > MAX_QUERY_CHARS:
+        raise ValueError(f"Query is too long ({len(query)} > {MAX_QUERY_CHARS} characters).")
+
     # 1. Retrieve relevant chunks via hybrid search (dense + BM25 → RRF)
-    chunks = hybrid_search(query)
+    chunks = (retriever or hybrid_search)(query)
 
     # 2. Build the prompt messages
     messages = build_messages(query, chunks)
 
     # 3. Call the LLM
-    raw_response = chat_completion(messages, api_key=api_key, base_url=base_url, model=model)
+    result = (llm or chat_completion)(messages, api_key=api_key, base_url=base_url, model=model)
 
     # 4. Parse the structured response
-    parsed = _parse_response(raw_response)
+    parsed = _parse_response(result.get("content"))
+    parsed["model_used"] = result.get("model_used", "")
+    parsed["usage"] = result.get("usage")
 
-    # 5. Attach the actual retrieved chunks — don't rely solely on LLM's
+    # 5. Deterministically check the [n] citations against the provided chunks
+    parsed["citation_check"] = verify_citations(parsed["answer"], chunks)
+
+    # 6. Attach the actual retrieved chunks — don't rely solely on LLM's
     #    self-reported sources. Surface the ground truth alongside.
     parsed["retrieved_chunks"] = [
         {
-            "text": c["text"][:300] + ("..." if len(c["text"]) > 300 else ""),
+            "text": c["text"][:600] + ("..." if len(c["text"]) > 600 else ""),
             "source_doc": c["metadata"]["source_doc"],
             "source_type": c["metadata"]["source_type"],
             "topic": c["metadata"]["topic"],
             "section_ref": c["metadata"].get("section_ref", ""),
+            "page": c["metadata"].get("page"),
         }
         for c in chunks
     ]

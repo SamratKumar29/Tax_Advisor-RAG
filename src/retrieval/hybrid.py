@@ -11,8 +11,8 @@ where k=60 is the standard constant from the original RRF paper
 This is ~20 lines of actual logic — simple enough to whiteboard and explain.
 """
 
-from src.config import DENSE_TOP_K, BM25_TOP_K, HYBRID_TOP_N, RRF_K
-from src.retrieval import dense_retriever, bm25_retriever
+from src.config import BM25_TOP_K, DENSE_TOP_K, HYBRID_TOP_N, RRF_K
+from src.retrieval import bm25_retriever, dense_retriever
 
 
 def reciprocal_rank_fusion(

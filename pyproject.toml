@@ -1,0 +1,15 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["venv", "indexes", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E402"]  # sys.path setup precedes imports in the Streamlit app
+
+[tool.ruff.lint.per-file-ignores]
+"**/prompt_templates.py" = ["E501"]  # prompt text is sent verbatim to the model

@@ -5,8 +5,10 @@ venv/
 # Environment secrets
 .env
 
-# Index files are committed for Streamlit Community Cloud deployment
-# (indexes/ ~12MB, needed at runtime for retrieval)
+# Index files (indexes/: Chroma ~33 MB + bm25.json ~8 MB + manifest) are committed
+# for Streamlit Community Cloud deployment, which needs them at runtime.
+# A stray Chroma DB is created if the app is started with a cwd-relative path:
+app/indexes/
 
 # Raw PDFs (large binaries — keep processed/chunks.jsonl for reproducibility)
 data/raw/*.pdf
@@ -26,4 +28,12 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
-plan.md
+
+# Windows download metadata
+*:Zone.Identifier
+
+# Local tooling / caches
+.cortex/
+.pytest_cache/
+.ruff_cache/
+eval/results/latest.*

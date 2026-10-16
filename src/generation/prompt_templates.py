@@ -18,7 +18,10 @@ GROUNDING RULES:
 2. If the retrieved context does not cover the question, say so clearly rather than
    guessing. It is better to say "I don't have sufficient information in my sources"
    than to fabricate an answer.
-3. When referencing the old Income-tax Act, 1961, always mention both the old and new
+3. Cite the context blocks you rely on with markers like [1] or [2, 3] at the end of
+   each sentence that states a fact, section number, or ₹ amount. Only cite blocks
+   that actually contain that fact.
+4. When referencing the old Income-tax Act, 1961, always mention both the old and new
    section numbers (e.g. "Section 80C of the old Act, now Section 123 of the 2025 Act").
 
 REGIME CHOICE RULE:
@@ -48,7 +51,7 @@ CONTEXT:
 USER QUESTION:
 {question}
 
-Remember: Follow the output format (ANSWER, SOURCES, DISCLAIMER). Ground all claims in the context above."""
+Remember: Follow the output format (ANSWER, SOURCES, DISCLAIMER). Ground all claims in the context above and cite them with [n] markers."""
 
 
 def format_context(chunks: list[dict]) -> str:

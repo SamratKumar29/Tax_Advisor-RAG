@@ -1,98 +1,100 @@
 """
-Data source reference and re-download helper.
+Source registry check / downloader for data/raw/.
 
-This script documents all source URLs and can re-download them if needed.
-In practice, the raw files were downloaded manually and placed in data/raw/.
-Run this script to verify files exist and log their status.
+The registry lives in data/sources.json (path, url, whether the URL is a direct
+download, licence, retrieval date, sha256).
+
+    python -m src.ingest.download_sources              # report status (default)
+    python -m src.ingest.download_sources --download   # fetch missing files with direct URLs
+    python -m src.ingest.download_sources --record-hashes  # write sha256 of present files
+
+Exit code is non-zero if any file is missing or a recorded hash does not match,
+so `make data` fails loudly instead of building an index from a partial corpus.
 """
 
-import os
+import argparse
+import hashlib
+import json
+import sys
+import urllib.request
 from pathlib import Path
-from datetime import datetime
 
-# Project root
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-RAW_DIR = PROJECT_ROOT / "data" / "raw"
+from src.config import DATA_RAW_DIR, PROJECT_ROOT
 
-# ── Source registry ────────────────────────────────────────────────────────
-# Each entry: (filename, description, url, source_type)
-SOURCES = [
-    (
-        "act_2025_full_text.pdf",
-        "Income-tax Act, 2025 (as amended by Finance Act 2026) — full text",
-        "https://www.incometaxindia.gov.in/documents/d/guest/income_tax_act_2025_as_amended_by_fa_act_2026-pdf",
-        "primary",
-    ),
-    (
-        "press_release_act_2025_commencement.pdf",
-        "Press release: IT Act 2025 comes into force from 1 Apr 2026",
-        "https://www.incometaxindia.gov.in/documents/d/guest/press-release-income-tax-act-2025-comes-into-force-from-01-04-2026-pdf",
-        "primary",
-    ),
-    (
-        "income_tax_rules_2026.pdf",
-        "Income-tax Rules, 2026 (operationalizes the Act — notified 20 Mar 2026)",
-        "https://www.incometaxindia.gov.in/cbdt/ → Rules section",
-        "primary",
-    ),
-    (
-        "faq_transition_1961_to_2025.pdf",
-        "Official FAQs on Interplay/Transition from 1961 Act to 2025 Act",
-        "https://www.incometax.gov.in/ → FAQs section",
-        "primary",
-    ),
-    (
-        "circulars/Circular_No_5_2026.pdf",
-        "CBDT Circular No. 5/2026",
-        "https://www.incometaxindia.gov.in/circulars",
-        "primary",
-    ),
-    (
-        "circulars/Circular-No-06-2026.pdf",
-        "CBDT Circular No. 6/2026",
-        "https://www.incometaxindia.gov.in/circulars",
-        "primary",
-    ),
-    (
-        "section_mapping_1961_to_2025.md",
-        "Hand-written section mapping table (old Act → new Act)",
-        "Hand-created, cross-checked against ClearTax + official FAQs",
-        "primary",
-    ),
-]
+REGISTRY_PATH = PROJECT_ROOT / "data" / "sources.json"
 
 
-def verify_sources():
-    """Check which source files exist in data/raw/ and report status."""
-    print(f"{'='*70}")
-    print(f"  Data Source Verification — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    print(f"  Raw directory: {RAW_DIR}")
-    print(f"{'='*70}\n")
+def load_registry(path: Path = REGISTRY_PATH) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
-    found = 0
-    missing = 0
 
-    for filename, description, url, source_type in SOURCES:
-        filepath = RAW_DIR / filename
-        exists = filepath.exists()
+def sha256_of(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
 
-        if exists:
-            size_mb = filepath.stat().st_size / (1024 * 1024)
-            status = f"✅ Found ({size_mb:.1f} MB)"
-            found += 1
-        else:
-            status = "❌ MISSING"
-            missing += 1
 
-        print(f"  [{source_type.upper():13s}] {filename}")
-        print(f"    {status}")
-        print(f"    {description}")
-        print()
+def check_source(entry: dict, raw_dir: Path = DATA_RAW_DIR) -> str:
+    """Return one of: ok, ok_unhashed, missing, hash_mismatch."""
+    path = raw_dir / entry["path"]
+    if not path.exists():
+        return "missing"
+    if not entry.get("sha256"):
+        return "ok_unhashed"
+    return "ok" if sha256_of(path) == entry["sha256"] else "hash_mismatch"
 
-    print(f"{'='*70}")
-    print(f"  Summary: {found} found, {missing} missing out of {len(SOURCES)} sources")
-    print(f"{'='*70}")
+
+def download(entry: dict, raw_dir: Path = DATA_RAW_DIR, timeout: int = 60) -> bool:
+    """Download one direct-URL source; returns True on success."""
+    if not entry.get("url_is_direct") or not entry.get("url"):
+        return False
+    dest = raw_dir / entry["path"]
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    with urllib.request.urlopen(entry["url"], timeout=timeout) as resp, open(tmp, "wb") as f:
+        f.write(resp.read())
+    tmp.replace(dest)
+    return True
+
+
+def main(argv=None, registry_path: Path = REGISTRY_PATH, raw_dir: Path = DATA_RAW_DIR) -> int:
+    p = argparse.ArgumentParser()
+    p.add_argument("--download", action="store_true")
+    p.add_argument("--record-hashes", action="store_true")
+    args = p.parse_args(argv)
+
+    registry = load_registry(registry_path)
+    problems = 0
+    for entry in registry["sources"]:
+        status = check_source(entry, raw_dir)
+        if status == "missing" and args.download:
+            try:
+                if download(entry, raw_dir):
+                    status = check_source(entry, raw_dir)
+            except OSError as e:
+                print(f"  download failed for {entry['path']}: {e}")
+        if args.record_hashes and status in ("ok_unhashed", "hash_mismatch"):
+            entry["sha256"] = sha256_of(raw_dir / entry["path"])
+            status = "ok"
+
+        hint = ""
+        if status == "missing":
+            hint = f"  ← fetch manually from {entry['url']}" if entry.get("url") else ""
+            problems += 1
+        elif status == "hash_mismatch":
+            problems += 1
+        print(f"  [{status:13s}] {entry['path']}{hint}")
+
+    if args.record_hashes:
+        registry_path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n",
+                                 encoding="utf-8")
+        print(f"  Recorded hashes in {registry_path}")
+
+    print(f"  {problems} problem(s) across {len(registry['sources'])} sources")
+    return 1 if problems else 0
 
 
 if __name__ == "__main__":
-    verify_sources()
+    sys.exit(main())

@@ -1,13 +1,11 @@
-langchain==0.3.*
-langchain-community==0.3.*
-chromadb==0.5.*
-sentence-transformers==3.*
-rank_bm25==0.2.*
-pypdf==5.*
-beautifulsoup4==4.*
-requests==2.*
-streamlit==1.*
-fastapi==0.115.*
-uvicorn==0.30.*
-python-dotenv==1.*
-openai==1.*
+# Runtime dependencies (direct imports only). Versions are the ones the test suite
+# and eval were run against; see requirements-dev.txt for test/lint tooling.
+chromadb==0.5.23
+sentence-transformers==3.4.1
+rank-bm25==0.2.2
+numpy==2.5.4
+pypdf==5.9.0
+langchain-text-splitters==0.3.11
+openai==1.109.1
+python-dotenv==1.2.4
+streamlit==1.66.0

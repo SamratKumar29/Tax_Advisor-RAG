@@ -1,0 +1,75 @@
+{
+  "_comment": "Source registry for data/raw/. sha256 is null until recorded with `python -m src.ingest.download_sources --record-hashes` on a machine that has the files. url_is_direct=false means the file must be fetched manually from the portal page given.",
+  "sources": [
+    {
+      "path": "act_2025_full_text.pdf",
+      "description": "Income-tax Act, 2025 (as amended by Finance Act 2026), full text",
+      "url": "https://www.incometaxindia.gov.in/documents/d/guest/income_tax_act_2025_as_amended_by_fa_act_2026-pdf",
+      "url_is_direct": true,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "press_release_act_2025_commencement.pdf",
+      "description": "Press release: Income-tax Act 2025 comes into force from 1 Apr 2026",
+      "url": "https://www.incometaxindia.gov.in/documents/d/guest/press-release-income-tax-act-2025-comes-into-force-from-01-04-2026-pdf",
+      "url_is_direct": true,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "income_tax_rules_2026.pdf",
+      "description": "Income-tax Rules, 2026 (notified 20 Mar 2026)",
+      "url": "https://www.incometaxindia.gov.in/cbdt/",
+      "url_is_direct": false,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "faq_transition_1961_to_2025.pdf",
+      "description": "Official FAQs on interplay/transition from the 1961 Act to the 2025 Act",
+      "url": "https://www.incometax.gov.in/",
+      "url_is_direct": false,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "circulars/Circular_No_5_2026.pdf",
+      "description": "CBDT Circular No. 5/2026",
+      "url": "https://www.incometaxindia.gov.in/circulars",
+      "url_is_direct": false,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "circulars/Circular-No-06-2026.pdf",
+      "description": "CBDT Circular No. 6/2026",
+      "url": "https://www.incometaxindia.gov.in/circulars",
+      "url_is_direct": false,
+      "source_type": "primary",
+      "license": "Government of India publication",
+      "retrieved": "2026-07-31",
+      "sha256": null
+    },
+    {
+      "path": "section_mapping_1961_to_2025.md",
+      "description": "Hand-written old-to-new section mapping table (curated; not independently verified)",
+      "url": null,
+      "url_is_direct": false,
+      "source_type": "curated",
+      "license": "Project author",
+      "retrieved": null,
+      "sha256": null
+    }
+  ]
+}
