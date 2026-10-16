@@ -32,11 +32,11 @@ jobs:
       - name: Retrieval eval (no API key; downloads the embedding model)
         run: python -m eval.run_eval --mode retrieval --configs dense,bm25,hybrid --name ci
 
-      - name: Fail on retrieval regression vs committed post_changes baseline
+      - name: Fail on retrieval regression vs committed n1_final baseline
         run: |
           python - <<'EOF'
           import json, sys
-          base = json.load(open("eval/results/post_changes.json"))["configs"]["hybrid"]["overall"]
+          base = json.load(open("eval/results/n1_final.json"))["configs"]["hybrid"]["overall"]
           cur = json.load(open("eval/results/ci.json"))["configs"]["hybrid"]["overall"]
           print("baseline", base, "\ncurrent ", cur)
           drop = base["recall@5"] - cur["recall@5"]

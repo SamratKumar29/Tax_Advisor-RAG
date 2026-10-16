@@ -50,6 +50,8 @@ def _get_matrix() -> dict:
     global _matrix
     if _matrix is None:
         data = _get_collection().get(include=["embeddings", "documents", "metadatas"])
+        data = {k: list(data[k]) for k in ("ids", "embeddings", "documents", "metadatas")}
+        _merge_user_chunks(data)
         order = sorted(range(len(data["ids"])), key=lambda i: data["ids"][i])
         emb = np.asarray([data["embeddings"][i] for i in order], dtype=np.float64)
         emb /= np.linalg.norm(emb, axis=1, keepdims=True)
@@ -60,6 +62,21 @@ def _get_matrix() -> dict:
             "emb": emb,
         }
     return _matrix
+
+
+def _merge_user_chunks(data: dict) -> None:
+    """Append user-uploaded chunks and their stored vectors (src.ingest.user_docs)."""
+    from src.ingest.build_index import chunk_metadata
+    from src.ingest.user_docs import load_user_chunks
+
+    known = set(data["ids"])
+    for c in load_user_chunks():
+        if c["id"] in known or not c.get("embedding"):
+            continue
+        data["ids"].append(c["id"])
+        data["embeddings"].append(c["embedding"])
+        data["documents"].append(c["text"])
+        data["metadatas"].append(chunk_metadata(c))
 
 
 def _embed_query(query: str) -> np.ndarray:

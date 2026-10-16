@@ -5,18 +5,33 @@ This is the single entry point for answering a user question.
 """
 
 import re
+import time
 from typing import Callable
 
+from src import config
 from src.config import MAX_QUERY_CHARS
 from src.generation.citations import verify_citations
+from src.generation.memory import condense_question
 from src.generation.prompt_templates import build_messages
 from src.llm_client import chat_completion
+from src.query_log import log_query
+from src.retrieval.llm_query import rewrite_query
+from src.types import Answer
 
 
-def hybrid_search(query: str) -> list[dict]:
-    """Lazy import so the chain can be used/tested without loading indexes."""
-    from src.retrieval.hybrid import search
-    return search(query)
+def hybrid_search(query: str, bm25_extra: str = "") -> tuple[list[dict], float]:
+    """Lazy import so the chain can be used/tested without loading indexes.
+    Returns (chunks, confidence) — see src.retrieval.hybrid.search_with_confidence."""
+    from src.retrieval.hybrid import search_with_confidence
+    return search_with_confidence(query, bm25_extra=bm25_extra)
+
+
+ABSTAIN_MESSAGE = (
+    "I could not find anything in the Income-tax Act, 2025, the Income-tax Rules, 2026 "
+    "or the other loaded documents that matches this question closely enough to answer "
+    "it reliably. This assistant covers Indian income tax for FY 2026-27 / AY 2027-28. "
+    "Try rephrasing with the specific provision, or consult a Chartered Accountant."
+)
 
 
 DISCLAIMER = (
@@ -67,8 +82,10 @@ def _parse_response(raw: str | None) -> dict:
 
 
 def answer(query: str, api_key: str, base_url: str, model: str | None = None,
+           fallbacks: list[str] | None = None,
+           history: list[dict] | None = None,
            retriever: Callable[[str], list[dict]] | None = None,
-           llm: Callable[..., dict] | None = None) -> dict:
+           llm: Callable[..., dict] | None = None) -> Answer:
     """
     Answer a user's tax question using hybrid retrieval + LLM generation.
 
@@ -77,6 +94,10 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None,
         api_key: LLM API key.
         base_url: LLM API base URL.
         model: Optional model override.
+        fallbacks: Optional fallback order (e.g. from llm_client.probe_models);
+            defaults to FALLBACK_MODELS.
+        history: Earlier chat turns [{"role", "content"}]; used only when
+            CONVERSATION_MEMORY is on, to rewrite a follow-up into a standalone question.
         retriever: Optional retrieval function (defaults to hybrid search).
         llm: Optional chat-completion function (defaults to llm_client).
 
@@ -90,6 +111,9 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None,
             "model_used": str,      # Model that actually answered
             "usage": dict | None,   # Token usage if reported
             "citation_check": dict, # See src.generation.citations.verify_citations
+            "abstained": bool,      # True when retrieval confidence was too low (no LLM call)
+            "confidence": float | None,  # best dense cosine similarity (None with a custom retriever)
+            "search_query": str,    # the query actually searched (standalone if memory is on)
         }
 
     Raises:
@@ -102,14 +126,51 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None,
     if len(query) > MAX_QUERY_CHARS:
         raise ValueError(f"Query is too long ({len(query)} > {MAX_QUERY_CHARS} characters).")
 
+    timings: dict[str, float] = {}
+    t0 = time.perf_counter()
+
+    # 0. Optional conversation memory: rewrite a follow-up into a standalone question
+    search_query = query
+    if history and config.CONVERSATION_MEMORY:
+        search_query = condense_question(query, history, api_key=api_key, base_url=base_url,
+                                         model=model, fallbacks=fallbacks,
+                                         llm=llm or chat_completion)
+        timings["condense_ms"] = _ms(t0)
+
     # 1. Retrieve relevant chunks via hybrid search (dense + BM25 → RRF)
-    chunks = (retriever or hybrid_search)(query)
+    t = time.perf_counter()
+    confidence = None
+    if retriever is not None:
+        chunks = retriever(search_query)
+    else:
+        extra = ""
+        if config.LLM_QUERY_REWRITE:
+            extra = rewrite_query(search_query, api_key=api_key, base_url=base_url, model=model,
+                                  fallbacks=fallbacks, llm=llm or chat_completion)
+        chunks, confidence = hybrid_search(search_query, bm25_extra=extra)
+    timings["retrieval_ms"] = _ms(t)
+
+    # 1b. Abstain without calling the LLM when nothing relevant was found
+    if confidence is not None and confidence < config.ABSTAIN_DENSE_THRESHOLD:
+        out = {
+            "answer": ABSTAIN_MESSAGE, "sources_text": "", "disclaimer": DISCLAIMER,
+            "raw_response": "", "model_used": "", "usage": None, "abstained": True,
+            "confidence": confidence, "search_query": search_query, "retrieved_chunks": [],
+            "citation_check": verify_citations(ABSTAIN_MESSAGE, []),
+        }
+        timings["total_ms"] = _ms(t0)
+        log_query(query, out, timings)
+        return out
 
     # 2. Build the prompt messages
-    messages = build_messages(query, chunks)
+    messages = build_messages(search_query, chunks)
 
     # 3. Call the LLM
-    result = (llm or chat_completion)(messages, api_key=api_key, base_url=base_url, model=model)
+    t = time.perf_counter()
+    llm_kwargs = {"fallbacks": fallbacks} if fallbacks is not None else {}
+    result = (llm or chat_completion)(messages, api_key=api_key, base_url=base_url, model=model,
+                                      **llm_kwargs)
+    timings["llm_ms"] = _ms(t)
 
     # 4. Parse the structured response
     parsed = _parse_response(result.get("content"))
@@ -132,5 +193,14 @@ def answer(query: str, api_key: str, base_url: str, model: str | None = None,
         }
         for c in chunks
     ]
+    parsed["abstained"] = False
+    parsed["confidence"] = confidence
+    parsed["search_query"] = search_query
 
+    timings["total_ms"] = _ms(t0)
+    log_query(query, parsed, timings, chunk_ids=[c.get("chunk_id", "") for c in chunks])
     return parsed
+
+
+def _ms(start: float) -> float:
+    return round((time.perf_counter() - start) * 1000, 1)

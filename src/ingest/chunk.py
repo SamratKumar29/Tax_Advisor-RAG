@@ -70,10 +70,53 @@ SECTION_AWARE_DOCS = {
 }
 
 
+def heading_title(before: str) -> str:
+    """
+    The marginal heading printed just before a section number, e.g.
+    "New tax regime for individuals, Hindu undivided family and others." before
+    "202. (1) ...". Titles end with a full stop and may wrap onto a second line.
+    Returns "" when the preceding text does not look like a title.
+    """
+    lines = [ln.strip() for ln in before.rstrip().split("\n")]
+    if not lines or not lines[-1].endswith("."):
+        return ""
+    title = lines[-1]
+    prev = lines[-2] if len(lines) > 1 else ""
+    if prev[:1].isupper() and not re.search(r"[.;:—]$", prev) and len(prev) + len(title) < 200:
+        # wrapped title; "pro-" + "vident fund" is a hyphenated line break
+        title = prev[:-1] + title if prev.endswith("-") else f"{prev} {title}"
+    title = re.sub(r"^\d+\[", "", title)  # amendment marker, e.g. "3[Fee for default ..."
+    if not title[:1].isupper() or len(title) > 200 or len(title) < 6:
+        return ""
+    return title
+
+
+def schedule_title(after: str) -> str:
+    """
+    Title of a schedule from the text after "SCHEDULE XV": the "[See section N]"
+    line plus the following upper-case title lines, e.g.
+    "Deductions ... (see section 123)". Returns "" when absent.
+    """
+    lines = [ln.strip() for ln in after.split("\n")[1:8]]
+    see = ""
+    if lines and lines[0].startswith("[See"):
+        see = lines.pop(0).strip("[]")
+    words = []
+    for ln in lines:
+        if not ln or not re.search(r"[A-Z]", ln) or ln != ln.upper():
+            break
+        words.append(ln[:-1] if ln.endswith("-") else ln + " ")
+    title = re.sub(r"\s+", " ", "".join(words)).strip().capitalize()
+    if see:
+        title = f"{title} ({see[0].lower()}{see[1:]})" if title else see
+    return title[:200]
+
+
 def assign_section_refs(chunks: list[dict], unit_label: str,
                         max_gap: int = MAX_SECTION_GAP) -> list[dict]:
     """
-    Set chunk["section_ref"] for an ordered list of chunks from ONE document.
+    Set chunk["section_ref"] (and chunk["section_title"], the heading text of
+    that unit when it could be read) for an ordered list of chunks from ONE document.
 
     A chunk gets the unit that is active at its start; if the chunk itself
     begins with an accepted heading, it gets that heading instead. Once a
@@ -83,6 +126,8 @@ def assign_section_refs(chunks: list[dict], unit_label: str,
     pending = None  # an out-of-range heading number awaiting confirmation (resync)
     current = ""
     in_schedules = False
+    titles: dict[str, str] = {}
+    prev_text = ""
 
     for chunk in chunks:
         text = chunk["text"]
@@ -101,6 +146,9 @@ def assign_section_refs(chunks: list[dict], unit_label: str,
             if kind == "schedule":
                 in_schedules = True
                 current = f"Schedule {payload}"
+                title = schedule_title(text[pos:])
+                if title:
+                    titles.setdefault(current, title)
             elif not in_schedules:
                 num, suffix = int(payload.group(1)), payload.group(2)
                 in_step = last_num < num <= last_num + max_gap
@@ -109,6 +157,10 @@ def assign_section_refs(chunks: list[dict], unit_label: str,
                 if in_step or lettered or resync:
                     last_num, last_suffix, pending = num, suffix, None
                     current = f"{unit_label} {num}{suffix}"
+                    before = text[:pos] if pos > 0 else prev_text[-300:]
+                    title = heading_title(before)
+                    if title:
+                        titles.setdefault(current, title)
                 else:
                     if num > last_num + max_gap:
                         pending = num
@@ -119,7 +171,22 @@ def assign_section_refs(chunks: list[dict], unit_label: str,
                 first_heading_ref = current
 
         chunk["section_ref"] = first_heading_ref or ref_at_start or current
+        prev_text = text
+
+    for chunk in chunks:
+        chunk["section_title"] = titles.get(chunk["section_ref"], "")
     return chunks
+
+
+def index_text(chunk: dict) -> str:
+    """
+    Text that is embedded and BM25-indexed: the section ref and title, then the
+    chunk text. Rate tables and long clauses rarely repeat their section's
+    subject ("New tax regime ...", "Fee for default ..."), so the header gives
+    them the vocabulary users ask with. The stored/displayed text is unchanged.
+    """
+    header = " — ".join(p for p in (chunk.get("section_ref", ""), chunk.get("section_title", "")) if p)
+    return f"{header}\n{chunk['text']}" if header else chunk["text"]
 
 
 # ── Splitting ─────────────────────────────────────────────────────────────

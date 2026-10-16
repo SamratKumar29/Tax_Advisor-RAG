@@ -37,3 +37,7 @@ Thumbs.db
 .pytest_cache/
 .ruff_cache/
 eval/results/latest.*
+
+# User-uploaded documents (may be copyrighted; never commit)
+data/user/
+logs/

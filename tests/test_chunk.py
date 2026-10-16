@@ -102,3 +102,42 @@ def test_resyncs_after_a_large_gap():
     chunks = _chunks("1. Title.\n", "20. Far ahead.\n", "21. Next.\n", "22. Next again.\n")
     assign_section_refs(chunks, "Section", max_gap=8)
     assert [c["section_ref"] for c in chunks] == ["Section 1", "Section 1", "Section 21", "Section 22"]
+
+
+# ── Section / schedule titles ──────────────────────────────────────────────
+from src.ingest.chunk import heading_title, index_text, schedule_title  # noqa: E402
+
+
+def test_heading_title_single_and_wrapped_lines():
+    title = "New tax regime for individuals."
+    assert heading_title(f"...prior clause.\n{title}\n") == title
+    wrapped = "end of 122.\nDeduction for life insurance premia, pro-\nvident fund, etc.\n"
+    assert heading_title(wrapped) == "Deduction for life insurance premia, provident fund, etc."
+    fee = "Fee for default in furnishing statements."
+    assert heading_title(f"3[{fee}\n") == fee
+
+
+def test_heading_title_rejects_non_titles():
+    assert heading_title("(b) any hospital or other institution;\n") == ""
+    assert heading_title("") == ""
+
+
+def test_schedule_title():
+    after = "SCHEDULE XV\n[See section 123]\nDEDUCTIONS FOR LIFE  \nINSURANCE PREMIA\n1. The sums"
+    assert schedule_title(after) == "Deductions for life insurance premia (see section 123)"
+
+
+def test_assign_section_refs_records_titles():
+    chunks = [
+        {"text": "Definitions.\n2. In this Act, unless the context otherwise requires"},
+        {"text": "and so on.\nNew tax regime for individuals.\n3. (1) Irrespective of anything"},
+        {"text": "TABLE Sl. No. Total income Rate of tax"},
+    ]
+    assign_section_refs(chunks, "Section")
+    assert [c["section_ref"] for c in chunks] == ["Section 2", "Section 2", "Section 3"]
+    assert chunks[2]["section_title"] == "New tax regime for individuals."
+    assert index_text(chunks[2]).startswith("Section 3 — New tax regime for individuals.\nTABLE")
+
+
+def test_index_text_without_header_is_plain_text():
+    assert index_text({"text": "abc"}) == "abc"

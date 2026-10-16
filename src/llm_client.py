@@ -128,3 +128,62 @@ def chat_completion(messages: list[dict], api_key: str, base_url: str,
         return {"content": content, "model_used": m, "usage": usage}
 
     raise LLMUnavailableError(tried, errors)
+
+
+PROBE_MESSAGES = [{"role": "user", "content": "Reply with the single word OK."}]
+
+
+def probe_models(api_key: str, base_url: str, models: list[str],
+                 client: OpenAI | None = None, timeout: float = 20.0,
+                 stop_at_first: bool = True) -> dict:
+    """
+    Send a tiny request to each model in order to find one that works now.
+
+    Used once at session start so the user is not the one who discovers that
+    the configured model is down or rate-limited.
+
+    Returns:
+        {"working": str | None,            # first model that answered
+         "ordered": list[str],             # working first, untested next, failed last
+         "status": {model: "ok" | "untested" | "<error>"}}
+
+    Raises:
+        LLMConfigError: no models, or the credentials were rejected (no model can work).
+    """
+    if not models:
+        raise LLMConfigError(
+            "No LLM model configured. Set LLM_MODEL in .env or enter a model in the sidebar.")
+    client = client or get_llm_client(api_key, base_url)
+    if hasattr(client, "with_options"):  # short timeout, no SDK retries: a probe should be fast
+        client = client.with_options(timeout=timeout, max_retries=0)
+
+    status: dict[str, str] = {m: "untested" for m in models}
+    working = None
+    for m in models:
+        try:
+            response = client.chat.completions.create(
+                model=m, messages=PROBE_MESSAGES, temperature=0, max_tokens=5)
+        except CONFIG_ERRORS as e:
+            raise LLMConfigError(
+                f"The LLM provider rejected the credentials ({type(e).__name__}). "
+                "Check the API key and base URL.", [m]) from e
+        except openai.APIStatusError as e:
+            status[m] = f"{type(e).__name__} {e.status_code}"
+            continue
+        except openai.OpenAIError as e:
+            status[m] = type(e).__name__
+            continue
+        content = response.choices[0].message.content if response.choices else None
+        if not content or not content.strip():
+            # Some reasoning models spend 5 tokens thinking; a 200 response still proves reachability.
+            status[m] = "ok (empty probe reply)"
+        else:
+            status[m] = "ok"
+        working = working or m
+        if stop_at_first:
+            break
+
+    ok = [m for m in models if status[m].startswith("ok")]
+    untested = [m for m in models if status[m] == "untested"]
+    failed = [m for m in models if m not in ok and m not in untested]
+    return {"working": working, "ordered": ok + untested + failed, "status": status}

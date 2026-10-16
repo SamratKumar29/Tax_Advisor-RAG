@@ -43,6 +43,7 @@ def main(argv=None):
                 "id": qid, "question": q, "ok": True,
                 "latency_s": round(time.perf_counter() - t0, 1),
                 "model_used": r["model_used"], "usage": r["usage"],
+                "abstained": r.get("abstained", False), "confidence": r.get("confidence"),
                 "answer": r["answer"], "citation_check": r["citation_check"],
                 "retrieved": [f"{c['source_doc']} | {c['section_ref']}" for c in r["retrieved_chunks"]],
             }
@@ -50,7 +51,7 @@ def main(argv=None):
             row = {"id": qid, "question": q, "ok": False, "error": str(e)}
         rows.append(row)
         cc = row.get("citation_check", {})
-        print(f"{qid}: ok={row['ok']} model={row.get('model_used')} "
+        print(f"{qid}: ok={row['ok']} abstained={row.get('abstained')} model={row.get('model_used')} "
               f"markers={cc.get('markers_used')} unsupported={len(cc.get('unsupported', []))}")
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

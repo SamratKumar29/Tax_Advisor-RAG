@@ -15,9 +15,16 @@ if PROJECT_ROOT not in sys.path:
 
 import streamlit as st
 
-from src.config import LLM_MODEL, MAX_QUERY_CHARS, IndexesMissingError, check_indexes
+from src.config import (
+    LLM_API_KEY,
+    LLM_BASE_URL,
+    LLM_MODEL,
+    MAX_QUERY_CHARS,
+    IndexesMissingError,
+    check_indexes,
+)
 from src.generation.chain import answer as get_answer
-from src.llm_client import LLMConfigError, LLMUnavailableError
+from src.llm_client import LLMConfigError, LLMUnavailableError, candidate_models, probe_models
 
 # ── Page config ──────────────────────────────────────────────────────────
 st.set_page_config(
@@ -41,12 +48,12 @@ if "pending_prompt" not in st.session_state:
 # ── LLM Configuration (sidebar) ─────────────────────────────────────────
 with st.sidebar:
     st.header("⚙️ LLM Configuration")
-    st.caption("Enter your OpenRouter/NVIDIA NIM credentials. These are not stored.")
+    st.caption("Defaults come from .env; you can override them here. Nothing is stored.")
 
     if "llm_api_key" not in st.session_state:
-        st.session_state.llm_api_key = ""
+        st.session_state.llm_api_key = LLM_API_KEY
     if "llm_base_url" not in st.session_state:
-        st.session_state.llm_base_url = "https://openrouter.ai/api/v1"
+        st.session_state.llm_base_url = LLM_BASE_URL
     if "llm_model" not in st.session_state:
         st.session_state.llm_model = LLM_MODEL
 
@@ -69,10 +76,35 @@ with st.sidebar:
     )
 
     st.divider()
-    if st.session_state.llm_api_key and st.session_state.llm_model:
-        st.success("✅ LLM configured")
-    else:
+    probe_key = (st.session_state.llm_api_key, st.session_state.llm_base_url,
+                 st.session_state.llm_model)
+    if st.button("🔄 Re-check models", use_container_width=True):
+        st.session_state.pop("model_probe", None)
+    if not st.session_state.llm_api_key:
         st.warning("⚠️ Please configure LLM to use the chat")
+    elif st.session_state.get("model_probe", {}).get("key") != probe_key:
+        # Find working models before the user's first question (once per config). A full
+        # scan (~5 s for 10 models) lets failing models be pushed to the end of the fallbacks.
+        with st.spinner("Checking which models are available..."):
+            try:
+                probe = probe_models(st.session_state.llm_api_key, st.session_state.llm_base_url,
+                                     candidate_models(st.session_state.llm_model),
+                                     stop_at_first=False)
+                probe["error"] = None
+            except LLMConfigError as e:
+                probe = {"working": None, "ordered": [], "status": {}, "error": str(e)}
+        probe["key"] = probe_key
+        st.session_state.model_probe = probe
+
+    probe = st.session_state.get("model_probe")
+    if st.session_state.llm_api_key and probe:
+        if probe["working"]:
+            st.success(f"✅ Using `{probe['working']}`")
+        else:
+            st.error(f"⚠️ {probe['error'] or 'No configured model is responding. Re-check later.'}")
+        with st.expander("Model status"):
+            for m, status in probe["status"].items():
+                st.caption(f"`{m}`: {status}")
 
     st.divider()
     st.caption(
@@ -136,11 +168,13 @@ def render_assistant_details(msg: dict) -> None:
                 label += f" · {chunk['section_ref']}"
             if chunk.get("page"):
                 label += f" · p.{chunk['page']}"
-            label += f" · _{chunk['source_type']}_ · topic: `{chunk['topic']}`"
+            label += f" · _{chunk['source_type']}_"
             st.markdown(label)
             st.text(chunk["text"])
             st.divider()
 
+    if msg.get("search_query") and msg.get("search_query") != msg.get("question"):
+        st.caption(f"Searched as: _{msg['search_query']}_")
     st.caption(msg.get("disclaimer", ""))
     if msg.get("model_used"):
         st.caption(f"Model: `{msg['model_used']}`")
@@ -156,8 +190,9 @@ for msg in st.session_state.messages:
 # ── Chat input ───────────────────────────────────────────────────────────
 def handle_prompt(prompt: str) -> None:
     """Single answer path shared by the example buttons and the chat input."""
-    if not st.session_state.llm_api_key or not st.session_state.llm_model:
-        st.error("⚠️ Please configure your LLM credentials in the sidebar first.")
+    probe = st.session_state.get("model_probe") or {}
+    if not st.session_state.llm_api_key or not probe.get("working"):
+        st.error("⚠️ No working LLM is configured. Check the sidebar (API key / model status).")
         return
     if len(prompt) > MAX_QUERY_CHARS:
         st.error(f"⚠️ Question is too long (max {MAX_QUERY_CHARS} characters).")
@@ -177,7 +212,9 @@ def handle_prompt(prompt: str) -> None:
                     prompt,
                     api_key=st.session_state.llm_api_key,
                     base_url=st.session_state.llm_base_url,
-                    model=st.session_state.llm_model,
+                    model=probe["working"],
+                    fallbacks=probe["ordered"][1:],
+                    history=st.session_state.messages[:-1],  # used only if CONVERSATION_MEMORY=1
                 )
         except (LLMUnavailableError, IndexesMissingError, ValueError) as e:
             # Remove the orphaned user turn so history stays consistent.
@@ -201,6 +238,8 @@ def handle_prompt(prompt: str) -> None:
             "retrieved_chunks": result["retrieved_chunks"],
             "disclaimer": result["disclaimer"],
             "model_used": result.get("model_used", ""),
+            "search_query": result.get("search_query", prompt),
+            "question": prompt,
         }
         st.markdown(message["content"])
         render_assistant_details(message)

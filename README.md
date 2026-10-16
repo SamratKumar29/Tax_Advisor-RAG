@@ -28,7 +28,7 @@ Generation                                          src/generation/, src/llm_cli
 Answer + model-reported sources + citation warnings + retrieved chunks (ground truth) + disclaimer
 ```
 
-**Why hybrid?** Tax text is full of exact tokens (section numbers, ₹ amounts, acronyms) that BM25 matches well, while dense retrieval handles paraphrase. Measured on the gold set, hybrid has the best MRR@10 (0.686 vs 0.599 BM25 and 0.578 dense), but BM25 alone has slightly higher recall@5 (0.857 vs 0.809). See [Results](#results).
+**Why hybrid?** Tax text is full of exact tokens (section numbers, ₹ amounts, acronyms) that BM25 matches well, while dense retrieval handles paraphrase. Measured on the gold set, weighted hybrid beats BM25 alone on recall@5 (0.952 vs 0.905) with equal recall@10 and practically equal MRR@10 (0.749 vs 0.750), and beats dense by a wide margin. See [Results](#results).
 
 **Why exact dense search instead of HNSW?** On this corpus Chroma's HNSW returned different top-10s between process runs for 7 of 42 eval questions, and differed from exact search on 37 of 42. Exact cosine over about 2.7k vectors takes milliseconds, so the app uses it by default (`DENSE_BACKEND=exact`). HNSW remains available for much larger corpora.
 
@@ -50,7 +50,7 @@ The committed `indexes/` and `data/processed/chunks.jsonl` are enough to run the
 
 | Command | What it does |
 |---|---|
-| `make test` / `make lint` | pytest (73 tests) / ruff |
+| `make test` / `make lint` | pytest (113 tests) / ruff |
 | `make eval` | Retrieval eval (dense, BM25, hybrid) → `eval/results/latest.{json,md}`; no API key |
 | `make eval-gen` | 6 end-to-end answers with your `.env` model (6 LLM calls) |
 | `make data` | Check `data/raw/` against `data/sources.json`; downloads files that have a direct URL |
@@ -58,18 +58,30 @@ The committed `indexes/` and `data/processed/chunks.jsonl` are enough to run the
 | `make upgrade-chunks` | Re-apply normalisation / section refs / tags to the existing `chunks.jsonl` (no PDFs needed) |
 | `make index` | Rebuild Chroma + BM25 + `indexes/manifest.json` from `chunks.jsonl` |
 
+**Adding your own books or notes:** open the **Documents** page in the app sidebar, upload a PDF / Markdown / text file and state its licence. It is chunked, embedded locally and searched alongside the Act as a *supplementary* source; **Delete** removes it from both indexes. Uploads are stored under `data/user/` (git-ignored, never committed). The committed base indexes are not modified.
+
+**Docker:** `docker build -t tax-advisor .` then `docker run --rm -p 8501:8501 --env-file .env -v "$PWD/data/user:/app/data/user" tax-advisor` (query logging is off in the image).
+
 ### Configuration (`.env`)
 
 | Variable | Default | Notes |
 |---|---|---|
 | `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` | –, OpenRouter, – | Can also be entered in the sidebar (kept in the session only) |
-| `FALLBACK_MODELS` | empty | Comma-separated; tried in order on rate limit / 5xx / timeout / empty reply |
+| `FALLBACK_MODELS` | empty | Comma-separated. At session start the app probes the primary model and every fallback with a tiny request (~5 s for 10 models), uses the first that works and moves failing ones to the end; each answer still falls back on rate limit / 5xx / timeout / empty reply |
 | `LLM_TIMEOUT`, `LLM_MAX_RETRIES` | 60, 2 | Per call |
 | `MAX_QUERY_CHARS` | 2000 | Longer questions are rejected |
 | `DENSE_BACKEND` | `exact` | `hnsw` for large corpora |
 | `DENSE_QUERY_PREFIX` | empty | bge query instruction; measured worse here (dense recall@5 0.738 → 0.714) |
 | `CHUNK_SIZE`, `CHUNK_OVERLAP` | 1500, 150 | **Characters** |
 | `CHROMA_PERSIST_DIR`, `BM25_INDEX_PATH` | `indexes/chroma`, `indexes/bm25.json` | Relative paths resolve against the project root, not the working directory |
+| `BM25_QUERY_EXPANSION` | 1 | Statutory-wording expansion for BM25 (`src/retrieval/query_expansion.py`) |
+| `RRF_DENSE_WEIGHT`, `RRF_BM25_WEIGHT` | 1.0, 1.5 | Weighted reciprocal rank fusion |
+| `ABSTAIN_DENSE_THRESHOLD` | 0.68 | "Not found" without an LLM call below this best dense similarity; 0 disables |
+| `LLM_QUERY_REWRITE` | 0 | LLM keyword rewrite for BM25 (+1 call; measured worse) |
+| `CONVERSATION_MEMORY`, `MEMORY_TURNS` | 0, 3 | Rewrite follow-ups into standalone questions (+1 call) |
+| `SECTION_HEADER_IN` | empty | Index chunks with their "Section N — title" header (`bm25`/`dense`); measured worse; needs `make index` |
+| `QUERY_LOG_PATH` | `logs/queries.jsonl` | Per-query JSONL (latency per stage, model, tokens, chunk ids, citation result). Contains questions; empty disables |
+| `USER_DOCS_DIR`, `MAX_UPLOAD_MB`, `MAX_UPLOAD_PAGES` | `data/user`, 15, 500 | Uploaded documents overlay |
 
 ---
 
@@ -104,25 +116,27 @@ Corpus: **2,748 chunks**, and 100% of the Act and Rules chunks carry a `section_
 
 All numbers come from `eval/` runs committed under `eval/results/`.
 
-**Retrieval** (42 answerable questions across 15 categories; `make eval`):
+**Retrieval** (42 answerable questions across 15 categories; `make eval`; `eval/results/n1_final.md`):
 
-| config | recall@5 | recall@10 | MRR@10 | p50 latency |
-|---|---|---|---|---|
-| dense | 0.738 | 0.786 | 0.578 | ~20 ms |
-| BM25 | 0.857 | 0.881 | 0.599 | ~6 ms |
-| **hybrid (app)** | 0.809 | 0.881 | **0.686** | ~30 ms |
+| config | recall@5 | recall@10 | MRR@10 |
+|---|---|---|---|
+| dense | 0.714 | 0.786 | 0.573 |
+| BM25 (+ query expansion, stopwords) | 0.905 | 0.952 | 0.750 |
+| **hybrid (app; weighted RRF)** | **0.952** | **0.952** | 0.749 |
+| *earlier hybrid (`post_changes`)* | *0.809* | *0.881* | *0.686* |
 
 These figures are a **proxy**. A retrieved chunk counts as relevant when it comes from an expected source and contains expected keywords, and none of the gold items are human-verified. Use them to compare configurations, not as absolute accuracy. Details are in [`eval/README.md`](eval/README.md).
 
 **What the numbers say:**
-- The ingestion improvements (₹ normalisation, section refs, dedup) were **retrieval-neutral** on this set: hybrid recall@5 was 0.809 before and 0.809 after. Their value is in traceable citations and data hygiene.
-- The bge query prefix made dense retrieval worse and stays off.
-- Weakest categories: `tds`, `salary`, and `slabs`. `q1_slabs` ("new regime slab rates") still misses, because the rate table never uses the words "slab" or "new regime".
+- The gains come from three general changes: a **stopword** list in the shared tokenizer, a small documented **query-expansion** map from everyday words to statutory wording for BM25 ("slab" → "rate of tax", "TDS" → "deduction of tax at source", "late filing" → "fee for default in furnishing return"), and **weighted RRF** (BM25 1.5, dense 1.0; any BM25 weight from 1.5 to 3 gives the same recall@5). They were selected on the same 42 questions, so expect some optimism.
+- Rejected after measuring: prefixing chunks with their section title (helped BM25 on one question, hurt hybrid overall), the bge query prefix, and an LLM keyword rewrite of the question (hybrid recall@5 0.929 vs 0.952, +1 call per question). The last two remain available as off-by-default flags.
+- Still missed: `q1_slabs` (the Section 202 rate table is outranked by the mapping table and FAQ) and `tds_rent` (the Rent row of the Section 393 table is outranked by FAQ text about TDS).
 
-**Generation smoke run** (`eval/results/gen_smoke_post_changes.json`, model `upstage/solar-mini4`, 6 calls, 4–15 s each, about 2.3k–2.9k tokens):
-- Q2–Q6 meet the criteria in `tests/test_questions.md`. That includes the out-of-scope refusal (FY 2024-25) and the regime question, where the answer stayed neutral.
-- Q1 correctly says the slab rates are not in the retrieved context, which is a retrieval miss rather than a hallucination.
-- The citation check flagged 3 section-number claims (in 2 sentences) that the model attributed to a context block not containing them.
+**Generation smoke run** (`eval/results/gen_smoke_n1.json`, model `upstage/solar-mini4`, 6 calls):
+- Q2–Q6 meet the criteria in `tests/test_questions.md`, including the out-of-scope refusal (FY 2024-25) and a neutral regime answer.
+- Q1 still says the slab rates are not in the retrieved context (retrieval miss, not a hallucination); the citation check flags 7 section/₹ claims that its cited blocks do not contain.
+
+**Abstention:** questions whose best dense similarity is below 0.68 get a "not found" answer without an LLM call. On the gold set this abstains on 3 of 5 out-of-scope questions (GST, stock tips, FY 2012-13) and 0 of 42 answerable ones; the margin is thin (lowest answerable 0.694). The other two (US tax, FY 2024-25) are on-topic enough to pass and are refused by the prompt instead.
 
 ---
 
@@ -163,11 +177,12 @@ data/sources.json              Source registry (URL, licence, sha256)
 ## Limitations
 
 - **Not legal advice; content unverified.** The gold set and the hand-written mapping table have not been checked by a tax professional.
-- Retrieval misses questions whose wording differs from the statute's ("slab rates" vs the rate table in Section 202).
+- Rate tables are still hard to retrieve (`q1_slabs`, `tds_rent`); see Results.
 - The citation check verifies numbers and section references only; it does not judge whether the prose is correct.
-- Single-turn: follow-up questions do not use the chat history.
-- English only. A PDF upload UI for adding books is not implemented yet; for now, add files under `data/raw/`, register them in `data/sources.json`, then run `make chunk index`.
-- Page numbers are only recorded when re-chunking from the PDFs. The committed chunks were upgraded without the PDFs, so they have section refs but no pages.
+- Conversation memory exists but is off by default (`CONVERSATION_MEMORY=1`) and has not been measured.
+- The abstention threshold was chosen on the same small gold set it is reported on.
+- Uploaded documents are searched only with the default exact dense backend (`DENSE_BACKEND=hnsw` ignores them), and live on the machine running the app (`data/user/`, git-ignored).
+- English only.
 
 ---
 

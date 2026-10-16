@@ -10,7 +10,9 @@ import json
 import numpy as np
 from rank_bm25 import BM25Okapi
 
+from src import config
 from src.config import BM25_INDEX_PATH, BM25_TOP_K
+from src.retrieval.query_expansion import expand_query
 from src.text_utils import tokenize
 
 # Module-level singleton
@@ -22,9 +24,23 @@ def _load_bm25() -> dict:
     if _bm25_data is None:
         with open(BM25_INDEX_PATH, encoding="utf-8") as f:
             data = json.load(f)
+        _merge_user_chunks(data)
         data["bm25"] = BM25Okapi(data["tokenized_corpus"])
         _bm25_data = data
     return _bm25_data
+
+
+def _merge_user_chunks(data: dict) -> None:
+    """Append user-uploaded chunks (src.ingest.user_docs) to the loaded base corpus."""
+    from src.ingest.build_index import chunk_metadata
+    from src.ingest.user_docs import load_user_chunks
+
+    for c in load_user_chunks():
+        if c["id"] in data["chunk_lookup"]:
+            continue
+        data["chunk_ids"].append(c["id"])
+        data["tokenized_corpus"].append(tokenize(c["text"]))
+        data["chunk_lookup"][c["id"]] = {"text": c["text"], "metadata": chunk_metadata(c)}
 
 
 def search(query: str, top_k: int | None = None) -> list[dict]:
@@ -38,6 +54,8 @@ def search(query: str, top_k: int | None = None) -> list[dict]:
     data = _load_bm25()
     chunk_ids = data["chunk_ids"]
 
+    if config.BM25_QUERY_EXPANSION:
+        query = expand_query(query)
     scores = np.asarray(data["bm25"].get_scores(tokenize(query)))
     k = min(k, len(scores))
     if k == 0:

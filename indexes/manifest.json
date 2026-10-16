@@ -1,8 +1,9 @@
 {
-  "built_at": "2026-10-16T11:06:25+00:00",
+  "built_at": "2026-10-16T19:44:35+00:00",
   "embedding_model": "BAAI/bge-small-en-v1.5",
-  "chunks_jsonl_sha256": "214a853d63e0c164510eee7f5b8b15bd09e8e300a3ce7cb6288a5e722b5777af",
-  "n_chunks": 2748,
-  "n_dense": 2748,
-  "n_bm25": 2748
+  "chunks_jsonl_sha256": "f7196e9e78d7344d8dfbaac75734bce6cbc9aaacca1b6e73b093c5e6684c6b40",
+  "n_chunks": 2743,
+  "n_dense": 2743,
+  "n_bm25": 2743,
+  "section_header_in": []
 }

@@ -51,6 +51,12 @@ BM25_INDEX_PATH = str(resolve_path(_bm25_env))
 INDEX_MANIFEST_PATH = str(resolve_path(os.getenv("INDEX_MANIFEST_PATH", "indexes/manifest.json")))
 
 
+# User-uploaded documents overlay (git-ignored); see src.ingest.user_docs.
+USER_DOCS_DIR = str(resolve_path(os.getenv("USER_DOCS_DIR", "data/user")))
+MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", "15"))
+MAX_UPLOAD_PAGES = int(os.getenv("MAX_UPLOAD_PAGES", "500"))
+
+
 class IndexesMissingError(RuntimeError):
     """Raised when the retrieval indexes have not been built."""
 
@@ -77,12 +83,36 @@ DENSE_TOP_K = int(os.getenv("DENSE_TOP_K", "10"))       # ChromaDB retrieval
 BM25_TOP_K = int(os.getenv("BM25_TOP_K", "10"))         # BM25 retrieval
 HYBRID_TOP_N = int(os.getenv("HYBRID_TOP_N", "5"))      # Final fused results
 RRF_K = int(os.getenv("RRF_K", "60"))                   # RRF constant (paper default)
+# Weighted RRF: BM25 (with query expansion) is the stronger ranker on the gold set
+# (eval/results/n1_*); any weight in 1.5–3 gives the same recall@5.
+RRF_DENSE_WEIGHT = float(os.getenv("RRF_DENSE_WEIGHT", "1.0"))
+RRF_BM25_WEIGHT = float(os.getenv("RRF_BM25_WEIGHT", "1.5"))
 # Instruction prepended to queries (not passages) before embedding. bge-v1.5
 # recommends one for short-query retrieval; whether it helps here is measured
 # in eval/ before changing the default.
 DENSE_QUERY_PREFIX = os.getenv("DENSE_QUERY_PREFIX", "")
 # "exact" (deterministic, default) or "hnsw" (approximate; for much larger corpora).
 DENSE_BACKEND = os.getenv("DENSE_BACKEND", "exact")
+# Which indexes see the "Section N — title" header in front of each chunk (see
+# src.ingest.chunk.index_text). Comma-separated subset of "bm25,dense"; rebuild
+# the indexes (make index) after changing it.
+# Append statutory phrasing to BM25 queries ("slab" → "rate of tax"); see
+# src.retrieval.query_expansion.
+BM25_QUERY_EXPANSION = os.getenv("BM25_QUERY_EXPANSION", "1") not in ("0", "false", "False", "")
+# Optional LLM rewrite of the question into statutory keywords for BM25 (one
+# extra LLM call per question); see src.retrieval.llm_query.
+LLM_QUERY_REWRITE = os.getenv("LLM_QUERY_REWRITE", "0") not in ("0", "false", "False", "")
+# Abstain (no LLM call) when the best dense cosine similarity is below this.
+# 0.68 abstains on 3/5 out-of-scope gold questions and 0/42 answerable ones
+# (lowest answerable: 0.694 — a thin margin chosen on the same set). 0 disables.
+ABSTAIN_DENSE_THRESHOLD = float(os.getenv("ABSTAIN_DENSE_THRESHOLD", "0.68"))
+# Rewrite follow-up questions into standalone ones using the last turns (one extra
+# LLM call per follow-up); see src.generation.memory.
+CONVERSATION_MEMORY = os.getenv("CONVERSATION_MEMORY", "0") not in ("0", "false", "False", "")
+MEMORY_TURNS = int(os.getenv("MEMORY_TURNS", "3"))
+# Structured per-query log (JSONL; contains the user's questions — disable for shared deployments).
+QUERY_LOG_PATH = os.getenv("QUERY_LOG_PATH", "logs/queries.jsonl")
+SECTION_HEADER_IN = {p.strip() for p in os.getenv("SECTION_HEADER_IN", "").split(",") if p.strip()}
 
 # ── ChromaDB collection name ──────────────────────────────────────────────
 CHROMA_COLLECTION_NAME = "tax_advisor_chunks"

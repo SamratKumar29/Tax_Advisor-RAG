@@ -26,10 +26,13 @@ from src.config import (
     CHUNKS_JSONL_PATH,
     EMBEDDING_MODEL,
     INDEX_MANIFEST_PATH,
+    SECTION_HEADER_IN,
 )
+from src.ingest.chunk import index_text
 from src.text_utils import tokenize
 
-METADATA_FIELDS = ("source_doc", "source_type", "topic", "tax_year_scope", "section_ref")
+METADATA_FIELDS = ("source_doc", "source_type", "topic", "tax_year_scope", "section_ref",
+                   "section_title")
 
 
 # ── Load chunks ──────────────────────────────────────────────────────────
@@ -58,11 +61,12 @@ def build_chroma_index(chunks: list[dict]) -> int:
     model = SentenceTransformer(EMBEDDING_MODEL)
 
     texts = [c["text"] for c in chunks]
+    embed_texts = [index_text(c) if "dense" in SECTION_HEADER_IN else c["text"] for c in chunks]
     ids = [c["id"] for c in chunks]
     metadatas = [chunk_metadata(c) for c in chunks]
 
     print(f"  Embedding {len(texts)} chunks (this may take a few minutes)...")
-    embeddings = model.encode(texts, show_progress_bar=True, batch_size=64)
+    embeddings = model.encode(embed_texts, show_progress_bar=True, batch_size=64)
 
     # Rebuild the persist dir from scratch: delete_collection() alone leaves the
     # old HNSW segment directory and un-vacuumed sqlite pages behind (index bloat).
@@ -100,7 +104,8 @@ def build_bm25_corpus(chunks: list[dict]) -> dict:
     """Tokenized corpus + chunk lookup; BM25Okapi is fitted from this at load time."""
     return {
         "chunk_ids": [c["id"] for c in chunks],
-        "tokenized_corpus": [tokenize(c["text"]) for c in chunks],
+        "tokenized_corpus": [
+            tokenize(index_text(c) if "bm25" in SECTION_HEADER_IN else c["text"]) for c in chunks],
         "chunk_lookup": {
             c["id"]: {"text": c["text"], "metadata": chunk_metadata(c)} for c in chunks
         },
@@ -140,6 +145,7 @@ def write_manifest(n_chunks: int, n_dense: int, n_bm25: int) -> dict:
         "n_chunks": n_chunks,
         "n_dense": n_dense,
         "n_bm25": n_bm25,
+        "section_header_in": sorted(SECTION_HEADER_IN),
     }
     path = Path(INDEX_MANIFEST_PATH)
     path.parent.mkdir(parents=True, exist_ok=True)

@@ -9,7 +9,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "d54a0ed6a91673d1a4fbcef9b5e472c3efe441139fae38f85a5a0c5b2cfc998b"
     },
     {
       "path": "press_release_act_2025_commencement.pdf",
@@ -19,7 +19,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "3f4216638ab71724aad5682f40ac9759e42b92f41511ec0439e83ab0a84f2f20"
     },
     {
       "path": "income_tax_rules_2026.pdf",
@@ -29,7 +29,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "2f862294becce46f05c26661b38ea0033400a6a674df207ec184849abd23f6f9"
     },
     {
       "path": "faq_transition_1961_to_2025.pdf",
@@ -39,7 +39,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "cf1d4ad8e7c7bc144dae8102f0418b2b8bbf4e2789e9a10dabf296fe8c43b62a"
     },
     {
       "path": "circulars/Circular_No_5_2026.pdf",
@@ -49,7 +49,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "027dfd694de80e0b64d9d1c286b143e595e1f3dd0107e9de5efabbe3544e08b2"
     },
     {
       "path": "circulars/Circular-No-06-2026.pdf",
@@ -59,7 +59,7 @@
       "source_type": "primary",
       "license": "Government of India publication",
       "retrieved": "2026-07-31",
-      "sha256": null
+      "sha256": "cc4238745db8f4ec56fb8a97c8ed6cb9287a6609adca5b602a1829fcbe8b0072"
     },
     {
       "path": "section_mapping_1961_to_2025.md",
@@ -69,7 +69,7 @@
       "source_type": "curated",
       "license": "Project author",
       "retrieved": null,
-      "sha256": null
+      "sha256": "47f78edd4cae025c1dd0f1f8d6b1ed1708dfef9d1248c9d0900e29ca82cf2be5"
     }
   ]
 }

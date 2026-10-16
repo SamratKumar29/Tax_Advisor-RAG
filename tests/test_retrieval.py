@@ -14,7 +14,7 @@ def _r(cid, rank):
 def test_rrf_rewards_agreement():
     dense = [_r("a", 1), _r("b", 2), _r("c", 3)]
     bm25 = [_r("b", 1), _r("d", 2), _r("a", 3)]
-    fused = reciprocal_rank_fusion(dense, bm25, k=60, top_n=4)
+    fused = reciprocal_rank_fusion(dense, bm25, k=60, top_n=4, dense_weight=1, bm25_weight=1)
     ids = [f["chunk_id"] for f in fused]
     # b: 1/62 + 1/61 ; a: 1/61 + 1/63 → b first, then a; c and d only appear once
     assert ids[:2] == ["b", "a"]
@@ -25,9 +25,19 @@ def test_rrf_rewards_agreement():
 def test_rrf_deduplicates_and_truncates():
     dense = [_r("a", 1), _r("b", 2)]
     bm25 = [_r("a", 1), _r("b", 2)]
-    fused = reciprocal_rank_fusion(dense, bm25, top_n=1)
+    fused = reciprocal_rank_fusion(dense, bm25, top_n=1, dense_weight=1, bm25_weight=1)
     assert len(fused) == 1 and fused[0]["chunk_id"] == "a"
     assert fused[0]["rrf_score"] == pytest.approx(2 / 61)
+
+
+def test_rrf_weights_favour_the_heavier_ranker():
+    dense = [_r("a", 1), _r("b", 2)]
+    bm25 = [_r("b", 1), _r("a", 2)]
+    equal = reciprocal_rank_fusion(dense, bm25, top_n=2, dense_weight=1, bm25_weight=1)
+    assert equal[0]["rrf_score"] == pytest.approx(equal[1]["rrf_score"])
+    fused = reciprocal_rank_fusion(dense, bm25, top_n=2, dense_weight=1, bm25_weight=1.5)
+    assert [f["chunk_id"] for f in fused] == ["b", "a"]
+    assert fused[0]["rrf_score"] == pytest.approx(1 / 62 + 1.5 / 61)
 
 
 def test_rrf_empty_inputs():

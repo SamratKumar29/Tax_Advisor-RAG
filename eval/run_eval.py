@@ -56,6 +56,12 @@ def get_search_fn(config: str):
     if config == "hybrid":
         from src.retrieval import hybrid
         return lambda q: hybrid.search(q, top_n=K_MAX)
+    if config == "hybrid_llm":  # LLM keyword rewrite for BM25: makes one LLM call per item (needs .env)
+        from src.config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL
+        from src.retrieval import hybrid
+        from src.retrieval.llm_query import rewrite_query
+        return lambda q: hybrid.search(
+            q, top_n=K_MAX, bm25_extra=rewrite_query(q, LLM_API_KEY, LLM_BASE_URL, LLM_MODEL))
     raise ValueError(f"Unknown config: {config}")
 
 
@@ -144,6 +150,9 @@ def main(argv=None):
                    help="exact = deterministic cosine over all vectors (app default); hnsw = Chroma ANN")
     args = p.parse_args(argv)
     set_dense_backend(args.dense_backend)
+    # Measure the committed base corpus only, never a developer's uploaded documents.
+    import src.config
+    src.config.USER_DOCS_DIR = str(ROOT / "eval" / ".no_user_docs")
 
     res = run_retrieval([c.strip() for c in args.configs.split(",") if c.strip()], load_gold(Path(args.gold)))
     res["dense_backend"] = args.dense_backend

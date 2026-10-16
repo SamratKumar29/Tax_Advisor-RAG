@@ -1,0 +1,12 @@
+venv/
+.venv/
+.env
+.git/
+.cortex/
+data/raw/
+data/user/
+logs/
+eval/results/latest.*
+**/__pycache__/
+.pytest_cache/
+.ruff_cache/

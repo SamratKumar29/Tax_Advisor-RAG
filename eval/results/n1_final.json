@@ -1,0 +1,2683 @@
+{
+  "configs": {
+    "bm25": {
+      "by_category": {
+        "capital_gains": {
+          "mrr@10": 0.8125,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "circulars": {
+          "mrr@10": 0.625,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "compliance": {
+          "mrr@10": 0.7083,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "deductions": {
+          "mrr@10": 0.9,
+          "n": 5,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "exemptions": {
+          "mrr@10": 0.6667,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 0.75
+        },
+        "house_property": {
+          "mrr@10": 1.0,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "mapping": {
+          "mrr@10": 0.8542,
+          "n": 8,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "regime": {
+          "mrr@10": 1.0,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "residence": {
+          "mrr@10": 0.25,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "salary": {
+          "mrr@10": 1.0,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "slabs": {
+          "mrr@10": 0.4167,
+          "n": 3,
+          "recall@10": 0.6667,
+          "recall@5": 0.6667
+        },
+        "tds": {
+          "mrr@10": 0.3889,
+          "n": 3,
+          "recall@10": 0.6667,
+          "recall@5": 0.3333
+        },
+        "transition": {
+          "mrr@10": 0.8333,
+          "n": 3,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        }
+      },
+      "latency_ms": {
+        "max": 9.2,
+        "p50": 3.1
+      },
+      "overall": {
+        "mrr@10": 0.75,
+        "n": 42,
+        "recall@10": 0.9524,
+        "recall@5": 0.9048
+      },
+      "per_item": {
+        "adv_tax": {
+          "category": "compliance",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ecfde532a3fd",
+            "b84360089aea",
+            "664483f76cbd",
+            "b121c4b7da7d",
+            "db19da36ea29",
+            "8f42cecdd7f8",
+            "40f4fc32e09c",
+            "e0bc89767a46",
+            "09c2b045e6de",
+            "7047e82186ae"
+          ]
+        },
+        "agri": {
+          "category": "exemptions",
+          "first_relevant_rank": 6,
+          "hit@10": 1.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.16666666666666666,
+          "top_ids": [
+            "fe678e73bafa",
+            "614db213d91b",
+            "ede142584d1a",
+            "7f38404a2f68",
+            "2ca177d7f1ba",
+            "9375591edcc5",
+            "44a3f71ed9a2",
+            "e179f08d781f",
+            "f803bc64c5c9",
+            "78484cdcb4ff"
+          ]
+        },
+        "cg_exempt_house": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d8ab841eb186",
+            "7cb65efed698",
+            "cb92f92b5988",
+            "e61320d11f24",
+            "cc4b7551e152",
+            "ab6bc917eac9",
+            "f7b9a59fdcc6",
+            "77cfd03842b0",
+            "37fa7698e23d",
+            "bc04769973c7"
+          ]
+        },
+        "cg_holding": {
+          "category": "capital_gains",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "17fdfa4e640e",
+            "772a64d0cca9",
+            "8f55e6d2e1df",
+            "8dfc915dd767",
+            "33a9855d6e42",
+            "d9ba3464c64c",
+            "b1a74524f796",
+            "30a00fc0c3b4",
+            "48238d9cb707",
+            "c55f43648a23"
+          ]
+        },
+        "cg_ltcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "650301c44fe7",
+            "30a00fc0c3b4",
+            "ff3b584b985b",
+            "864e8026af7b",
+            "33a9855d6e42",
+            "7715f92167e1",
+            "0519549861e0",
+            "744612b11ea8",
+            "c55f43648a23",
+            "470d50d9bdab"
+          ]
+        },
+        "cg_stcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "0519549861e0",
+            "18026825a242",
+            "864e8026af7b",
+            "ac0a90f220fa",
+            "8f8a6a8cf535",
+            "43207f14544b",
+            "744612b11ea8",
+            "bbf4db85db79",
+            "30a00fc0c3b4",
+            "650301c44fe7"
+          ]
+        },
+        "circ5": {
+          "category": "circulars",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ce63f93f20e2",
+            "2374d6f653e4",
+            "02a34f3c621a",
+            "a610babd0afe",
+            "8c137868b594",
+            "d571bdf52b00",
+            "0ed095a4318d",
+            "192b720513b3",
+            "56b0dc4e4a9f",
+            "1260a0d4a0e8"
+          ]
+        },
+        "circ6": {
+          "category": "circulars",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "2374d6f653e4",
+            "ce63f93f20e2",
+            "02a34f3c621a",
+            "a610babd0afe",
+            "8c137868b594",
+            "5de7718ce214",
+            "d9d3df9fd96e",
+            "d571bdf52b00",
+            "d96d5445e490",
+            "52bb4c93afa2"
+          ]
+        },
+        "commence": {
+          "category": "transition",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "a8954673c1a2",
+            "65213ad4b121",
+            "83d87e3527a8",
+            "2ebeb83ed596",
+            "4ce6d3f1b2fc",
+            "d75772cc0125",
+            "d96d5445e490",
+            "850e72ac9ac7",
+            "eedc6db69ba4",
+            "cc6e3ad7931a"
+          ]
+        },
+        "ded_80d": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "88d85a7e8c79",
+            "72ccf3faeda7",
+            "6894bc012090",
+            "de32a49a4d52",
+            "021029aa874e",
+            "12ccaa0725ce",
+            "8427491f3572",
+            "e39e171d68b2",
+            "f938a6f87422",
+            "688e3a6c71ed"
+          ]
+        },
+        "ded_80e": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ee57718d4df4",
+            "021029aa874e",
+            "9060f52ee97c",
+            "6183fb8456bd",
+            "37fa7698e23d",
+            "c4fc584f861c",
+            "b953b966d79e",
+            "06ed1705072d",
+            "19c2f0d02d88",
+            "933a2169840f"
+          ]
+        },
+        "ded_80tta": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "933a2169840f",
+            "4265e6e1eac1",
+            "d141aaa6f9e7",
+            "42a46fbc1c6d",
+            "a8845a32eb00",
+            "c6964f1af030",
+            "1e1561cc9894",
+            "021029aa874e",
+            "aecfa4a582c7",
+            "4e6636b17023"
+          ]
+        },
+        "ded_nps": {
+          "category": "deductions",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "f938a6f87422",
+            "d62db02a21c0",
+            "fec82e8bc555",
+            "46d7d1293403",
+            "28ce91f73763",
+            "9fccce4cea53",
+            "3997607b4bc9",
+            "fe74981b269a",
+            "9d6de8704c53",
+            "39b8675c17a7"
+          ]
+        },
+        "ded_std": {
+          "category": "salary",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f87a855eb828",
+            "edb0f47de575",
+            "fbed91eb6286",
+            "7bf75ff0b40a",
+            "3ef7f6c9c694",
+            "6b88acd1ec1b",
+            "a673ef554288",
+            "744612b11ea8",
+            "7d21100c4ac8",
+            "d4bdf7040955"
+          ]
+        },
+        "faq_pending": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d7f3f11acca9",
+            "4cdf991484b3",
+            "4dac1d5a0bcf",
+            "b88381d7cf78",
+            "308717f6e41b",
+            "03a1325927a9",
+            "ec9348344778",
+            "a94a5b2d4b38",
+            "901bd9def80e",
+            "cc6e3ad7931a"
+          ]
+        },
+        "form16": {
+          "category": "tds",
+          "first_relevant_rank": 6,
+          "hit@10": 1.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.16666666666666666,
+          "top_ids": [
+            "e120a7a8472a",
+            "7bf75ff0b40a",
+            "b33b53a5f653",
+            "750892f84166",
+            "edb0f47de575",
+            "4d6b0e92b8cb",
+            "2cfed6818520",
+            "24697313694b",
+            "fbed91eb6286",
+            "4c9438e52195"
+          ]
+        },
+        "hp_annual": {
+          "category": "house_property",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2a7b0253513f",
+            "a1ea00f0671b",
+            "4d8b665231a3",
+            "37fa7698e23d",
+            "744612b11ea8",
+            "f7b9a59fdcc6",
+            "f938d2684fc2",
+            "c4884ed88b84",
+            "6d6d1c26b74b",
+            "1ba136f4c001"
+          ]
+        },
+        "hp_interest": {
+          "category": "house_property",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a1ea00f0671b",
+            "c83f05304156",
+            "744612b11ea8",
+            "37fa7698e23d",
+            "a23d8cb36027",
+            "513e98b44dde",
+            "f7b9a59fdcc6",
+            "7804f3a97520",
+            "d8ab841eb186",
+            "ab6bc917eac9"
+          ]
+        },
+        "map_115bac": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "04f7e32fe278",
+            "744612b11ea8",
+            "e1aac5bc6fbb",
+            "15538f82a6e1",
+            "f50b65dd8314",
+            "9b8a5eaebf9d",
+            "4d976debfda3",
+            "850e72ac9ac7",
+            "f9453233b956",
+            "eedc6db69ba4"
+          ]
+        },
+        "map_139": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "e1aac5bc6fbb",
+            "879259c51996",
+            "d96d5445e490",
+            "8f42cecdd7f8",
+            "52bb4c93afa2",
+            "e4ed97bb0892",
+            "60a46608eca7",
+            "aa047fbad828",
+            "018df4848fd4",
+            "2eb8969a32a1"
+          ]
+        },
+        "map_194a": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "6b504d64ad3d",
+            "fb5e4db1e43d",
+            "7c253190200a",
+            "ecd3db0ac01f",
+            "24697313694b",
+            "de38234eef24",
+            "3abfba83d3af",
+            "4c9438e52195",
+            "192b720513b3",
+            "c68b4ccd9754"
+          ]
+        },
+        "map_24b": {
+          "category": "mapping",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "021029aa874e",
+            "f7b9a59fdcc6",
+            "744612b11ea8",
+            "37fa7698e23d",
+            "06ed1705072d",
+            "ee57718d4df4",
+            "c83f05304156",
+            "09b3397d1357",
+            "712086b8a422",
+            "933a2169840f"
+          ]
+        },
+        "map_80d": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f938a6f87422",
+            "72ccf3faeda7",
+            "88d85a7e8c79",
+            "6894bc012090",
+            "b1034cdc6b38",
+            "744612b11ea8",
+            "de32a49a4d52",
+            "6b504d64ad3d",
+            "4ccb0f417e8b",
+            "192b720513b3"
+          ]
+        },
+        "map_80g": {
+          "category": "mapping",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "a610babd0afe",
+            "021029aa874e",
+            "56b0dc4e4a9f",
+            "4d8179f8db3a",
+            "c79e19e3c360",
+            "62a5c65d4661",
+            "4ed87f71f85a",
+            "9b8a5eaebf9d",
+            "d571bdf52b00",
+            "f9453233b956"
+          ]
+        },
+        "map_87a": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "744612b11ea8",
+            "a7e53b17d6ce",
+            "bbcee8a69f4c",
+            "e1aac5bc6fbb",
+            "6b504d64ad3d",
+            "192b720513b3",
+            "086053d253d7",
+            "049204df3d5c",
+            "efc0a15c0dd0",
+            "24697313694b"
+          ]
+        },
+        "pan_aadhaar": {
+          "category": "compliance",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "be7e8abef43d",
+            "833f409bcc0e",
+            "d225ba7bc0b3",
+            "a3f4c1b15ee2",
+            "b0f4be9fa4f8",
+            "16968357a6b0",
+            "a3986df7e22f",
+            "68e3fb53fd96",
+            "eff7335cdbcb",
+            "27671b800537"
+          ]
+        },
+        "penalty_late": {
+          "category": "compliance",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "52bb4c93afa2",
+            "2eb8969a32a1",
+            "0044c11edb14",
+            "6db51ac0c423",
+            "67d4d4806104",
+            "c68b4ccd9754",
+            "0c0d1c405c93",
+            "e1aac5bc6fbb",
+            "df3c8852fa4c",
+            "8f42cecdd7f8"
+          ]
+        },
+        "q1_slabs": {
+          "category": "slabs",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "744612b11ea8",
+            "e1aac5bc6fbb",
+            "04f7e32fe278",
+            "c59aef708364",
+            "f9453233b956",
+            "b9b4f05a49e5",
+            "136f01bf792b",
+            "ff53a79008f1",
+            "d75772cc0125",
+            "60a46608eca7"
+          ]
+        },
+        "q2_sec123": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f9453233b956",
+            "f938a6f87422",
+            "3abfba83d3af",
+            "7c253190200a",
+            "11ce24240426",
+            "44dbde9d97ca",
+            "d891bd896cbc",
+            "9b10892be772",
+            "cb53da8ed188",
+            "192b720513b3"
+          ]
+        },
+        "q3_hra": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "6b504d64ad3d",
+            "513e98b44dde",
+            "4249ec605548",
+            "021029aa874e",
+            "8949d1c2e79d",
+            "4d8b665231a3",
+            "bd77d417a194",
+            "36dcfc2c8eec",
+            "e88696b4f7a5",
+            "28a29b7311f3"
+          ]
+        },
+        "q4_regime": {
+          "category": "regime",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "04f7e32fe278",
+            "744612b11ea8",
+            "e1aac5bc6fbb",
+            "f9453233b956",
+            "d75772cc0125",
+            "efc0a15c0dd0",
+            "136f01bf792b",
+            "c59aef708364",
+            "b9b4f05a49e5",
+            "ee354b1f2690"
+          ]
+        },
+        "q6_80c_map": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f9453233b956",
+            "3abfba83d3af",
+            "f938a6f87422",
+            "24697313694b",
+            "ecd3db0ac01f",
+            "68ae5209be29",
+            "cc6e3ad7931a",
+            "b84360089aea",
+            "192b720513b3",
+            "e1aac5bc6fbb"
+          ]
+        },
+        "rebate": {
+          "category": "slabs",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a7e53b17d6ce",
+            "006cfe7739b4",
+            "744612b11ea8",
+            "60234d24c0e1",
+            "04f7e32fe278",
+            "6e085bd5049d",
+            "5c5171ba73f2",
+            "b101fd1e1f74",
+            "67e4bf957003",
+            "203d9c5a18be"
+          ]
+        },
+        "residence": {
+          "category": "residence",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "3501e3d428f4",
+            "703996d09a3f",
+            "33106fa0c9bc",
+            "6a08c7d4821d",
+            "37fa7698e23d",
+            "24e869b0a2be",
+            "6c87ac0de3cc",
+            "f500075d8728",
+            "24adf0d9d75c",
+            "fbed8045ffc8"
+          ]
+        },
+        "ret_due": {
+          "category": "compliance",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "8f42cecdd7f8",
+            "2eb8969a32a1",
+            "fb5e4db1e43d",
+            "24f2136b1941",
+            "eb08231fbe89",
+            "71e8f35accee",
+            "60a46608eca7",
+            "933c5825df51",
+            "e1aac5bc6fbb",
+            "5b4b58e86c8b"
+          ]
+        },
+        "sal_gratuity": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2db933779e98",
+            "06bea9bac531",
+            "288d5144c51d",
+            "2a1d172bfd3e",
+            "74b389246b5e",
+            "76d42706c4f7",
+            "15e4e12058d9",
+            "a9288f31994d",
+            "ba73eac891af",
+            "1a07e4bbdfb3"
+          ]
+        },
+        "sal_leave": {
+          "category": "exemptions",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "15e4e12058d9",
+            "1a07e4bbdfb3",
+            "8992d46ddda5",
+            "96f459863c42",
+            "40e89d9b13bd",
+            "6ceb53994cfa",
+            "77de17408404",
+            "b07913d37508",
+            "61248716f279",
+            "83647b7290bf"
+          ]
+        },
+        "sal_perq": {
+          "category": "salary",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d4bdf7040955",
+            "edb0f47de575",
+            "7bf75ff0b40a",
+            "770f1889f78e",
+            "3ef7f6c9c694",
+            "fbed91eb6286",
+            "7b4fe626f56f",
+            "d3a1287104a0",
+            "8780f73983c1",
+            "9d6de8704c53"
+          ]
+        },
+        "surcharge": {
+          "category": "slabs",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "da97ab40190a",
+            "9dd7702cfee7",
+            "a8845a32eb00",
+            "ea8beb3c72be",
+            "b83a9b52572f",
+            "f56e45eded27",
+            "dbcc58dffd95",
+            "6f4a10010a8a",
+            "b0a442b43aa5",
+            "c98e4c527bd9"
+          ]
+        },
+        "tax_year": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ff53a79008f1",
+            "703996d09a3f",
+            "15538f82a6e1",
+            "68deefaa0148",
+            "04f7e32fe278",
+            "e1aac5bc6fbb",
+            "b84360089aea",
+            "eedc6db69ba4",
+            "4cdf991484b3",
+            "c26beb2b3808"
+          ]
+        },
+        "tds_rent": {
+          "category": "tds",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "4c9438e52195",
+            "24697313694b",
+            "ecd3db0ac01f",
+            "b33b53a5f653",
+            "750892f84166",
+            "6b504d64ad3d",
+            "e120a7a8472a",
+            "de38234eef24",
+            "95e42f4f1754",
+            "513e98b44dde"
+          ]
+        },
+        "tds_salary": {
+          "category": "tds",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "7bf75ff0b40a",
+            "c59aef708364",
+            "750892f84166",
+            "b33b53a5f653",
+            "57e637add5c9",
+            "24697313694b",
+            "fbed91eb6286",
+            "4d6b0e92b8cb",
+            "edb0f47de575",
+            "e120a7a8472a"
+          ]
+        }
+      }
+    },
+    "dense": {
+      "by_category": {
+        "capital_gains": {
+          "mrr@10": 0.7812,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 0.75
+        },
+        "circulars": {
+          "mrr@10": 0.6667,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "compliance": {
+          "mrr@10": 0.6083,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 0.75
+        },
+        "deductions": {
+          "mrr@10": 0.6667,
+          "n": 5,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "exemptions": {
+          "mrr@10": 0.5833,
+          "n": 4,
+          "recall@10": 0.75,
+          "recall@5": 0.75
+        },
+        "house_property": {
+          "mrr@10": 0.75,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "mapping": {
+          "mrr@10": 0.4156,
+          "n": 8,
+          "recall@10": 0.625,
+          "recall@5": 0.5
+        },
+        "regime": {
+          "mrr@10": 1.0,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "residence": {
+          "mrr@10": 0.3333,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "salary": {
+          "mrr@10": 0.5,
+          "n": 2,
+          "recall@10": 0.5,
+          "recall@5": 0.5
+        },
+        "slabs": {
+          "mrr@10": 0.3333,
+          "n": 3,
+          "recall@10": 0.3333,
+          "recall@5": 0.3333
+        },
+        "tds": {
+          "mrr@10": 0.1111,
+          "n": 3,
+          "recall@10": 0.3333,
+          "recall@5": 0.3333
+        },
+        "transition": {
+          "mrr@10": 1.0,
+          "n": 3,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        }
+      },
+      "latency_ms": {
+        "max": 163.9,
+        "p50": 22.9
+      },
+      "overall": {
+        "mrr@10": 0.5726,
+        "n": 42,
+        "recall@10": 0.7857,
+        "recall@5": 0.7143
+      },
+      "per_item": {
+        "adv_tax": {
+          "category": "compliance",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "b84360089aea",
+            "231b141235cf",
+            "86e9b001c2d4",
+            "971b9d7740a9",
+            "e0bc89767a46",
+            "db19da36ea29",
+            "522bf05d71ee",
+            "7be464026d6c",
+            "178a6a630a07",
+            "09c2b045e6de"
+          ]
+        },
+        "agri": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "e179f08d781f",
+            "fe678e73bafa",
+            "4f16289e18d8",
+            "b24f7268e4a3",
+            "eb09b51c72c6",
+            "2cfbe0870a30",
+            "4e29cffb5d30",
+            "a635ad76ac52",
+            "a7e53b17d6ce",
+            "1e0ce9ed7a2c"
+          ]
+        },
+        "cg_exempt_house": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "7cb65efed698",
+            "d8ab841eb186",
+            "cc4b7551e152",
+            "e61320d11f24",
+            "a1ea00f0671b",
+            "cb92f92b5988",
+            "d4ef343af532",
+            "eb08231fbe89",
+            "bc04769973c7",
+            "d9ba3464c64c"
+          ]
+        },
+        "cg_holding": {
+          "category": "capital_gains",
+          "first_relevant_rank": 8,
+          "hit@10": 1.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.125,
+          "top_ids": [
+            "17fdfa4e640e",
+            "772a64d0cca9",
+            "7aec2a031898",
+            "0a7d10da1041",
+            "f6f230a504d7",
+            "e61320d11f24",
+            "d45672a38215",
+            "8dfc915dd767",
+            "30a00fc0c3b4",
+            "bc04769973c7"
+          ]
+        },
+        "cg_ltcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "650301c44fe7",
+            "30a00fc0c3b4",
+            "c55f43648a23",
+            "205a376a2ac3",
+            "864e8026af7b",
+            "b62b60a7da63",
+            "7715f92167e1",
+            "18026825a242",
+            "0519549861e0",
+            "e61320d11f24"
+          ]
+        },
+        "cg_stcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "0519549861e0",
+            "18026825a242",
+            "db670792f436",
+            "8b85d2f18e81",
+            "30a00fc0c3b4",
+            "864e8026af7b",
+            "8d04cf01e903",
+            "af2a0c481e60",
+            "b816544fdb45",
+            "1f5215962f3c"
+          ]
+        },
+        "circ5": {
+          "category": "circulars",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ce63f93f20e2",
+            "cd2922ef9b42",
+            "bb43c231d52c",
+            "dcb4debaf4c5",
+            "07e22062167c",
+            "65213ad4b121",
+            "eedc6db69ba4",
+            "a610babd0afe",
+            "2374d6f653e4",
+            "4cdf991484b3"
+          ]
+        },
+        "circ6": {
+          "category": "circulars",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "ce63f93f20e2",
+            "4d6e9060b9b6",
+            "a610babd0afe",
+            "a8954673c1a2",
+            "308717f6e41b",
+            "bb43c231d52c",
+            "971b9d7740a9",
+            "4cdf991484b3",
+            "522bf05d71ee",
+            "aa82c7eab8bc"
+          ]
+        },
+        "commence": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2ebeb83ed596",
+            "65213ad4b121",
+            "522bf05d71ee",
+            "33106fa0c9bc",
+            "971b9d7740a9",
+            "8fc45f713100",
+            "85cd0876f033",
+            "a8954673c1a2",
+            "231b141235cf",
+            "07e22062167c"
+          ]
+        },
+        "ded_80d": {
+          "category": "deductions",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "71d03ecb007a",
+            "72ccf3faeda7",
+            "ee57718d4df4",
+            "4ba29841176e",
+            "88d85a7e8c79",
+            "b778f3ee2949",
+            "8427491f3572",
+            "de32a49a4d52",
+            "4708b8266eef",
+            "bbcee8a69f4c"
+          ]
+        },
+        "ded_80e": {
+          "category": "deductions",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "37fa7698e23d",
+            "06ed1705072d",
+            "ee57718d4df4",
+            "178a6a630a07",
+            "6183fb8456bd",
+            "a23d8cb36027",
+            "b9dde28a6b18",
+            "a08fadef3368",
+            "c4fc584f861c",
+            "a8845a32eb00"
+          ]
+        },
+        "ded_80tta": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a8845a32eb00",
+            "49555f398428",
+            "37fa7698e23d",
+            "84c9a8aa7ad6",
+            "06ed1705072d",
+            "6183fb8456bd",
+            "ee57718d4df4",
+            "9a6ccbdc7215",
+            "4265e6e1eac1",
+            "75ad6f6c4a4f"
+          ]
+        },
+        "ded_nps": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "6603ed337351",
+            "de6d05cdb661",
+            "d62db02a21c0",
+            "fe74981b269a",
+            "9d6de8704c53",
+            "35d28615edd6",
+            "77cb3fe3f051",
+            "630fa962231a",
+            "39b8675c17a7",
+            "75ad6f6c4a4f"
+          ]
+        },
+        "ded_std": {
+          "category": "salary",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "2a1d172bfd3e",
+            "b778f3ee2949",
+            "fe74981b269a",
+            "bbcee8a69f4c",
+            "d62db02a21c0",
+            "1a07e4bbdfb3",
+            "f71a3bcc3c66",
+            "60234d24c0e1",
+            "288d5144c51d",
+            "0c803ea7feea"
+          ]
+        },
+        "faq_pending": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "4dac1d5a0bcf",
+            "308717f6e41b",
+            "b88381d7cf78",
+            "e7136ab52ca7",
+            "a94a5b2d4b38",
+            "4cdf991484b3",
+            "07e22062167c",
+            "26785e5eeb46",
+            "a11331b7a80d",
+            "7f1935e74abe"
+          ]
+        },
+        "form16": {
+          "category": "tds",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "2cfed6818520",
+            "c59aef708364",
+            "4d6b0e92b8cb",
+            "4d6e9060b9b6",
+            "44e9ce483a9c",
+            "2da8d69c5f2c",
+            "4f4342a96440",
+            "750892f84166",
+            "11ce24240426",
+            "4f12a3a0011b"
+          ]
+        },
+        "hp_annual": {
+          "category": "house_property",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2a7b0253513f",
+            "4d8b665231a3",
+            "a1ea00f0671b",
+            "77cfd03842b0",
+            "664d72dacb48",
+            "772a64d0cca9",
+            "a04cc6b43047",
+            "f938d2684fc2",
+            "bd77d417a194",
+            "1ba136f4c001"
+          ]
+        },
+        "hp_interest": {
+          "category": "house_property",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "37fa7698e23d",
+            "a1ea00f0671b",
+            "c83f05304156",
+            "f7b9a59fdcc6",
+            "513e98b44dde",
+            "7cb65efed698",
+            "cc4b7551e152",
+            "06ed1705072d",
+            "d8ab841eb186",
+            "a23d8cb36027"
+          ]
+        },
+        "map_115bac": {
+          "category": "mapping",
+          "first_relevant_rank": 8,
+          "hit@10": 1.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.125,
+          "top_ids": [
+            "be001ec70eb0",
+            "65213ad4b121",
+            "2ebeb83ed596",
+            "f9453233b956",
+            "8f42cecdd7f8",
+            "2ccb71182326",
+            "f50b65dd8314",
+            "e1aac5bc6fbb",
+            "eedc6db69ba4",
+            "2374d6f653e4"
+          ]
+        },
+        "map_139": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "e1aac5bc6fbb",
+            "879259c51996",
+            "8f42cecdd7f8",
+            "6b504d64ad3d",
+            "ff48b080e98e",
+            "e4ed97bb0892",
+            "2ccb71182326",
+            "52bb4c93afa2",
+            "f938a6f87422",
+            "c49ad48da144"
+          ]
+        },
+        "map_194a": {
+          "category": "mapping",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "4ccb0f417e8b",
+            "d5f52e25d1cc",
+            "4f12a3a0011b",
+            "4f4342a96440",
+            "c3a7106bd6d9",
+            "3abfba83d3af",
+            "24697313694b",
+            "2da8d69c5f2c",
+            "44e9ce483a9c",
+            "ecd3db0ac01f"
+          ]
+        },
+        "map_24b": {
+          "category": "mapping",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "f7b9a59fdcc6",
+            "2fc01fe72d34",
+            "37fa7698e23d",
+            "32ef59ef234f",
+            "b139c82891d6",
+            "513e98b44dde",
+            "06ed1705072d",
+            "82172a5bccb3",
+            "d45672a38215",
+            "9375591edcc5"
+          ]
+        },
+        "map_80d": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "021029aa874e",
+            "f938a6f87422",
+            "647b92f53661",
+            "e1aac5bc6fbb",
+            "ee57718d4df4",
+            "19265db2eee8",
+            "c0fc9ec11da0",
+            "f9453233b956",
+            "88d85a7e8c79",
+            "8da608642137"
+          ]
+        },
+        "map_80g": {
+          "category": "mapping",
+          "first_relevant_rank": 5,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.2,
+          "top_ids": [
+            "a610babd0afe",
+            "f938a6f87422",
+            "e1aac5bc6fbb",
+            "647b92f53661",
+            "021029aa874e",
+            "eedc6db69ba4",
+            "e610f12e6430",
+            "82172a5bccb3",
+            "65213ad4b121",
+            "c47bd8fffbe7"
+          ]
+        },
+        "map_87a": {
+          "category": "mapping",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "647b92f53661",
+            "e1aac5bc6fbb",
+            "dc66f0daf10a",
+            "bb6559a0df0e",
+            "a057a31a1d1a",
+            "03a1325927a9",
+            "bab472cba103",
+            "58163136775d",
+            "ff48b080e98e",
+            "e6509d14c814"
+          ]
+        },
+        "pan_aadhaar": {
+          "category": "compliance",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "b0f4be9fa4f8",
+            "a3f4c1b15ee2",
+            "16968357a6b0",
+            "68e3fb53fd96",
+            "d225ba7bc0b3",
+            "be7e8abef43d",
+            "0b6eb47c6434",
+            "900e3e9456c5",
+            "eff7335cdbcb",
+            "833f409bcc0e"
+          ]
+        },
+        "penalty_late": {
+          "category": "compliance",
+          "first_relevant_rank": 10,
+          "hit@10": 1.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.1,
+          "top_ids": [
+            "52bb4c93afa2",
+            "2eb8969a32a1",
+            "d96d5445e490",
+            "aa047fbad828",
+            "c49ad48da144",
+            "ddfa19d7cbf1",
+            "0fe7608e6836",
+            "522bf05d71ee",
+            "c37084a8374d",
+            "51e14dc90de8"
+          ]
+        },
+        "q1_slabs": {
+          "category": "slabs",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "522bf05d71ee",
+            "971b9d7740a9",
+            "33106fa0c9bc",
+            "e6509d14c814",
+            "e0bc89767a46",
+            "231b141235cf",
+            "2ebeb83ed596",
+            "62021ad1d24d",
+            "3597cf2ea2ac",
+            "bc04769973c7"
+          ]
+        },
+        "q2_sec123": {
+          "category": "deductions",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "561a3e06d637",
+            "f9453233b956",
+            "573cb305dfea",
+            "021029aa874e",
+            "9f29b4de4909",
+            "ca24db66a768",
+            "39b276049ae7",
+            "9b10892be772",
+            "ee57718d4df4",
+            "086053d253d7"
+          ]
+        },
+        "q3_hra": {
+          "category": "exemptions",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "2e67b3b86547",
+            "f71a3bcc3c66",
+            "d4bdf7040955",
+            "05a8198e4a18",
+            "96f459863c42",
+            "8d5092ba2fa3",
+            "e89f52d17e6c",
+            "2ccb71182326",
+            "78b20ab0aa17",
+            "e25ebf4ac94b"
+          ]
+        },
+        "q4_regime": {
+          "category": "regime",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "04f7e32fe278",
+            "40f4fc32e09c",
+            "29354b446018",
+            "58163136775d",
+            "a11331b7a80d",
+            "2bdc2777226c",
+            "7f1935e74abe",
+            "db04607e6b44",
+            "d75772cc0125",
+            "efc0a15c0dd0"
+          ]
+        },
+        "q6_80c_map": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f938a6f87422",
+            "19265db2eee8",
+            "e1aac5bc6fbb",
+            "65f3c527f2f5",
+            "6b504d64ad3d",
+            "b3eb8eafca0c",
+            "e610f12e6430",
+            "647b92f53661",
+            "03a1325927a9",
+            "8bda082c8973"
+          ]
+        },
+        "rebate": {
+          "category": "slabs",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a7e53b17d6ce",
+            "8949d1c2e79d",
+            "006cfe7739b4",
+            "4e29cffb5d30",
+            "5c5171ba73f2",
+            "67e4bf957003",
+            "24e869b0a2be",
+            "60234d24c0e1",
+            "5a2d5ef94b66",
+            "ddd135feb7df"
+          ]
+        },
+        "residence": {
+          "category": "residence",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "33106fa0c9bc",
+            "3501e3d428f4",
+            "6a08c7d4821d",
+            "d4bdf7040955",
+            "5d06d3e66a28",
+            "37fa7698e23d",
+            "6614952fc1cd",
+            "ade319869f5c",
+            "8949d1c2e79d",
+            "703996d09a3f"
+          ]
+        },
+        "ret_due": {
+          "category": "compliance",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "522bf05d71ee",
+            "fdfa8a38c9ca",
+            "971b9d7740a9",
+            "2f1f7ad19e12",
+            "3569f0d063c7",
+            "8f42cecdd7f8",
+            "c49ad48da144",
+            "7047e82186ae",
+            "2eb8969a32a1",
+            "aa047fbad828"
+          ]
+        },
+        "sal_gratuity": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "b778f3ee2949",
+            "ba73eac891af",
+            "9d6de8704c53",
+            "cf957b5aea88",
+            "621ca7bc9d2a",
+            "a9288f31994d",
+            "2a1d172bfd3e",
+            "7e7910729484",
+            "09b2d712dd22",
+            "74b389246b5e"
+          ]
+        },
+        "sal_leave": {
+          "category": "exemptions",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "433e66df9796",
+            "1492434aab32",
+            "8992d46ddda5",
+            "20c7dbb1026b",
+            "00a25fd0669b",
+            "2ccb71182326",
+            "2ecf8a9a20e2",
+            "9d6de8704c53",
+            "add8d9e2cb45",
+            "b778f3ee2949"
+          ]
+        },
+        "sal_perq": {
+          "category": "salary",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d4bdf7040955",
+            "6614952fc1cd",
+            "a1c507164776",
+            "b9dde28a6b18",
+            "beae5ce06245",
+            "a35c3d8b7185",
+            "fa4223dcd19f",
+            "8f1c9e53bd50",
+            "00fe7c8791c5",
+            "73ed4474b1d6"
+          ]
+        },
+        "surcharge": {
+          "category": "slabs",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "ab3fb6721f4b",
+            "d07bb2848271",
+            "fb941f0caff6",
+            "d85bac9ce85c",
+            "2ecf8a9a20e2",
+            "281412815fcc",
+            "f0f735f2c8da",
+            "ba1f34a2d449",
+            "2c8dff5f0871",
+            "b778f3ee2949"
+          ]
+        },
+        "tax_year": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ff53a79008f1",
+            "65213ad4b121",
+            "2ebeb83ed596",
+            "68deefaa0148",
+            "522bf05d71ee",
+            "15538f82a6e1",
+            "c26beb2b3808",
+            "2f1f7ad19e12",
+            "33106fa0c9bc",
+            "8fc45f713100"
+          ]
+        },
+        "tds_rent": {
+          "category": "tds",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "d5f52e25d1cc",
+            "4ccb0f417e8b",
+            "4f4342a96440",
+            "c3a7106bd6d9",
+            "4c9438e52195",
+            "ecd3db0ac01f",
+            "2da8d69c5f2c",
+            "4f12a3a0011b",
+            "24697313694b",
+            "54d27df6aa4c"
+          ]
+        },
+        "tds_salary": {
+          "category": "tds",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "c59aef708364",
+            "3997607b4bc9",
+            "750892f84166",
+            "4f4342a96440",
+            "2cfed6818520",
+            "c3a7106bd6d9",
+            "1a10820c9050",
+            "24697313694b",
+            "4f12a3a0011b",
+            "80dcddd7f8ce"
+          ]
+        }
+      }
+    },
+    "hybrid": {
+      "by_category": {
+        "capital_gains": {
+          "mrr@10": 0.8333,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "circulars": {
+          "mrr@10": 0.75,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "compliance": {
+          "mrr@10": 0.5833,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "deductions": {
+          "mrr@10": 1.0,
+          "n": 5,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "exemptions": {
+          "mrr@10": 0.875,
+          "n": 4,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "house_property": {
+          "mrr@10": 1.0,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "mapping": {
+          "mrr@10": 0.6813,
+          "n": 8,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "regime": {
+          "mrr@10": 1.0,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "residence": {
+          "mrr@10": 0.3333,
+          "n": 1,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "salary": {
+          "mrr@10": 1.0,
+          "n": 2,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        },
+        "slabs": {
+          "mrr@10": 0.4167,
+          "n": 3,
+          "recall@10": 0.6667,
+          "recall@5": 0.6667
+        },
+        "tds": {
+          "mrr@10": 0.25,
+          "n": 3,
+          "recall@10": 0.6667,
+          "recall@5": 0.6667
+        },
+        "transition": {
+          "mrr@10": 1.0,
+          "n": 3,
+          "recall@10": 1.0,
+          "recall@5": 1.0
+        }
+      },
+      "latency_ms": {
+        "max": 39.1,
+        "p50": 28.2
+      },
+      "overall": {
+        "mrr@10": 0.7488,
+        "n": 42,
+        "recall@10": 0.9524,
+        "recall@5": 0.9524
+      },
+      "per_item": {
+        "adv_tax": {
+          "category": "compliance",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "b84360089aea",
+            "db19da36ea29",
+            "e0bc89767a46",
+            "09c2b045e6de",
+            "ecfde532a3fd",
+            "664483f76cbd",
+            "b121c4b7da7d",
+            "8f42cecdd7f8",
+            "40f4fc32e09c",
+            "7047e82186ae"
+          ]
+        },
+        "agri": {
+          "category": "exemptions",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "fe678e73bafa",
+            "e179f08d781f",
+            "614db213d91b",
+            "ede142584d1a",
+            "7f38404a2f68",
+            "2ca177d7f1ba",
+            "9375591edcc5",
+            "44a3f71ed9a2",
+            "f803bc64c5c9",
+            "78484cdcb4ff"
+          ]
+        },
+        "cg_exempt_house": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d8ab841eb186",
+            "7cb65efed698",
+            "e61320d11f24",
+            "cb92f92b5988",
+            "cc4b7551e152",
+            "bc04769973c7",
+            "ab6bc917eac9",
+            "f7b9a59fdcc6",
+            "77cfd03842b0",
+            "37fa7698e23d"
+          ]
+        },
+        "cg_holding": {
+          "category": "capital_gains",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "17fdfa4e640e",
+            "772a64d0cca9",
+            "8dfc915dd767",
+            "30a00fc0c3b4",
+            "8f55e6d2e1df",
+            "33a9855d6e42",
+            "d9ba3464c64c",
+            "b1a74524f796",
+            "48238d9cb707",
+            "c55f43648a23"
+          ]
+        },
+        "cg_ltcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "650301c44fe7",
+            "30a00fc0c3b4",
+            "864e8026af7b",
+            "7715f92167e1",
+            "c55f43648a23",
+            "0519549861e0",
+            "ff3b584b985b",
+            "33a9855d6e42",
+            "744612b11ea8",
+            "470d50d9bdab"
+          ]
+        },
+        "cg_stcg": {
+          "category": "capital_gains",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "0519549861e0",
+            "18026825a242",
+            "864e8026af7b",
+            "30a00fc0c3b4",
+            "ac0a90f220fa",
+            "8f8a6a8cf535",
+            "43207f14544b",
+            "744612b11ea8",
+            "bbf4db85db79",
+            "650301c44fe7"
+          ]
+        },
+        "circ5": {
+          "category": "circulars",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ce63f93f20e2",
+            "2374d6f653e4",
+            "a610babd0afe",
+            "02a34f3c621a",
+            "8c137868b594",
+            "d571bdf52b00",
+            "0ed095a4318d",
+            "192b720513b3",
+            "56b0dc4e4a9f",
+            "1260a0d4a0e8"
+          ]
+        },
+        "circ6": {
+          "category": "circulars",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "ce63f93f20e2",
+            "a610babd0afe",
+            "2374d6f653e4",
+            "02a34f3c621a",
+            "8c137868b594",
+            "5de7718ce214",
+            "d9d3df9fd96e",
+            "d571bdf52b00",
+            "d96d5445e490",
+            "52bb4c93afa2"
+          ]
+        },
+        "commence": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "65213ad4b121",
+            "2ebeb83ed596",
+            "a8954673c1a2",
+            "83d87e3527a8",
+            "4ce6d3f1b2fc",
+            "d75772cc0125",
+            "d96d5445e490",
+            "850e72ac9ac7",
+            "eedc6db69ba4",
+            "cc6e3ad7931a"
+          ]
+        },
+        "ded_80d": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "72ccf3faeda7",
+            "88d85a7e8c79",
+            "de32a49a4d52",
+            "8427491f3572",
+            "6894bc012090",
+            "021029aa874e",
+            "12ccaa0725ce",
+            "e39e171d68b2",
+            "f938a6f87422",
+            "688e3a6c71ed"
+          ]
+        },
+        "ded_80e": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ee57718d4df4",
+            "37fa7698e23d",
+            "6183fb8456bd",
+            "06ed1705072d",
+            "c4fc584f861c",
+            "021029aa874e",
+            "9060f52ee97c",
+            "b953b966d79e",
+            "19c2f0d02d88",
+            "933a2169840f"
+          ]
+        },
+        "ded_80tta": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a8845a32eb00",
+            "4265e6e1eac1",
+            "933a2169840f",
+            "d141aaa6f9e7",
+            "42a46fbc1c6d",
+            "c6964f1af030",
+            "1e1561cc9894",
+            "021029aa874e",
+            "aecfa4a582c7",
+            "4e6636b17023"
+          ]
+        },
+        "ded_nps": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d62db02a21c0",
+            "fe74981b269a",
+            "9d6de8704c53",
+            "39b8675c17a7",
+            "f938a6f87422",
+            "fec82e8bc555",
+            "46d7d1293403",
+            "28ce91f73763",
+            "9fccce4cea53",
+            "3997607b4bc9"
+          ]
+        },
+        "ded_std": {
+          "category": "salary",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f87a855eb828",
+            "edb0f47de575",
+            "fbed91eb6286",
+            "7bf75ff0b40a",
+            "3ef7f6c9c694",
+            "6b88acd1ec1b",
+            "a673ef554288",
+            "744612b11ea8",
+            "7d21100c4ac8",
+            "d4bdf7040955"
+          ]
+        },
+        "faq_pending": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "4dac1d5a0bcf",
+            "4cdf991484b3",
+            "b88381d7cf78",
+            "308717f6e41b",
+            "a94a5b2d4b38",
+            "d7f3f11acca9",
+            "03a1325927a9",
+            "ec9348344778",
+            "901bd9def80e",
+            "cc6e3ad7931a"
+          ]
+        },
+        "form16": {
+          "category": "tds",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "2cfed6818520",
+            "4d6b0e92b8cb",
+            "750892f84166",
+            "e120a7a8472a",
+            "7bf75ff0b40a",
+            "b33b53a5f653",
+            "edb0f47de575",
+            "24697313694b",
+            "fbed91eb6286",
+            "4c9438e52195"
+          ]
+        },
+        "hp_annual": {
+          "category": "house_property",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2a7b0253513f",
+            "a1ea00f0671b",
+            "4d8b665231a3",
+            "f938d2684fc2",
+            "1ba136f4c001",
+            "37fa7698e23d",
+            "744612b11ea8",
+            "f7b9a59fdcc6",
+            "c4884ed88b84",
+            "6d6d1c26b74b"
+          ]
+        },
+        "hp_interest": {
+          "category": "house_property",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a1ea00f0671b",
+            "c83f05304156",
+            "37fa7698e23d",
+            "513e98b44dde",
+            "f7b9a59fdcc6",
+            "a23d8cb36027",
+            "d8ab841eb186",
+            "744612b11ea8",
+            "7804f3a97520",
+            "ab6bc917eac9"
+          ]
+        },
+        "map_115bac": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "e1aac5bc6fbb",
+            "f50b65dd8314",
+            "f9453233b956",
+            "eedc6db69ba4",
+            "04f7e32fe278",
+            "744612b11ea8",
+            "15538f82a6e1",
+            "9b8a5eaebf9d",
+            "4d976debfda3",
+            "850e72ac9ac7"
+          ]
+        },
+        "map_139": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "e1aac5bc6fbb",
+            "879259c51996",
+            "8f42cecdd7f8",
+            "e4ed97bb0892",
+            "52bb4c93afa2",
+            "d96d5445e490",
+            "60a46608eca7",
+            "aa047fbad828",
+            "018df4848fd4",
+            "2eb8969a32a1"
+          ]
+        },
+        "map_194a": {
+          "category": "mapping",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "24697313694b",
+            "ecd3db0ac01f",
+            "3abfba83d3af",
+            "6b504d64ad3d",
+            "fb5e4db1e43d",
+            "7c253190200a",
+            "de38234eef24",
+            "4c9438e52195",
+            "192b720513b3",
+            "c68b4ccd9754"
+          ]
+        },
+        "map_24b": {
+          "category": "mapping",
+          "first_relevant_rank": 5,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.2,
+          "top_ids": [
+            "f7b9a59fdcc6",
+            "37fa7698e23d",
+            "06ed1705072d",
+            "021029aa874e",
+            "744612b11ea8",
+            "ee57718d4df4",
+            "c83f05304156",
+            "09b3397d1357",
+            "712086b8a422",
+            "933a2169840f"
+          ]
+        },
+        "map_80d": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f938a6f87422",
+            "88d85a7e8c79",
+            "72ccf3faeda7",
+            "6894bc012090",
+            "b1034cdc6b38",
+            "744612b11ea8",
+            "de32a49a4d52",
+            "6b504d64ad3d",
+            "4ccb0f417e8b",
+            "192b720513b3"
+          ]
+        },
+        "map_80g": {
+          "category": "mapping",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "a610babd0afe",
+            "021029aa874e",
+            "56b0dc4e4a9f",
+            "4d8179f8db3a",
+            "c79e19e3c360",
+            "62a5c65d4661",
+            "4ed87f71f85a",
+            "9b8a5eaebf9d",
+            "d571bdf52b00",
+            "f9453233b956"
+          ]
+        },
+        "map_87a": {
+          "category": "mapping",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "e1aac5bc6fbb",
+            "744612b11ea8",
+            "a7e53b17d6ce",
+            "bbcee8a69f4c",
+            "6b504d64ad3d",
+            "192b720513b3",
+            "086053d253d7",
+            "049204df3d5c",
+            "efc0a15c0dd0",
+            "24697313694b"
+          ]
+        },
+        "pan_aadhaar": {
+          "category": "compliance",
+          "first_relevant_rank": 2,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.5,
+          "top_ids": [
+            "be7e8abef43d",
+            "a3f4c1b15ee2",
+            "b0f4be9fa4f8",
+            "d225ba7bc0b3",
+            "16968357a6b0",
+            "833f409bcc0e",
+            "68e3fb53fd96",
+            "eff7335cdbcb",
+            "a3986df7e22f",
+            "27671b800537"
+          ]
+        },
+        "penalty_late": {
+          "category": "compliance",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "52bb4c93afa2",
+            "2eb8969a32a1",
+            "0044c11edb14",
+            "6db51ac0c423",
+            "67d4d4806104",
+            "c68b4ccd9754",
+            "0c0d1c405c93",
+            "e1aac5bc6fbb",
+            "df3c8852fa4c",
+            "8f42cecdd7f8"
+          ]
+        },
+        "q1_slabs": {
+          "category": "slabs",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "744612b11ea8",
+            "e1aac5bc6fbb",
+            "04f7e32fe278",
+            "c59aef708364",
+            "f9453233b956",
+            "b9b4f05a49e5",
+            "136f01bf792b",
+            "ff53a79008f1",
+            "d75772cc0125",
+            "60a46608eca7"
+          ]
+        },
+        "q2_sec123": {
+          "category": "deductions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f9453233b956",
+            "9b10892be772",
+            "f938a6f87422",
+            "3abfba83d3af",
+            "7c253190200a",
+            "11ce24240426",
+            "44dbde9d97ca",
+            "d891bd896cbc",
+            "cb53da8ed188",
+            "192b720513b3"
+          ]
+        },
+        "q3_hra": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "6b504d64ad3d",
+            "513e98b44dde",
+            "4249ec605548",
+            "021029aa874e",
+            "8949d1c2e79d",
+            "4d8b665231a3",
+            "bd77d417a194",
+            "36dcfc2c8eec",
+            "e88696b4f7a5",
+            "28a29b7311f3"
+          ]
+        },
+        "q4_regime": {
+          "category": "regime",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "04f7e32fe278",
+            "d75772cc0125",
+            "efc0a15c0dd0",
+            "744612b11ea8",
+            "e1aac5bc6fbb",
+            "f9453233b956",
+            "136f01bf792b",
+            "c59aef708364",
+            "b9b4f05a49e5",
+            "ee354b1f2690"
+          ]
+        },
+        "q6_80c_map": {
+          "category": "mapping",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "f938a6f87422",
+            "e1aac5bc6fbb",
+            "f9453233b956",
+            "3abfba83d3af",
+            "24697313694b",
+            "ecd3db0ac01f",
+            "68ae5209be29",
+            "cc6e3ad7931a",
+            "b84360089aea",
+            "192b720513b3"
+          ]
+        },
+        "rebate": {
+          "category": "slabs",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "a7e53b17d6ce",
+            "006cfe7739b4",
+            "60234d24c0e1",
+            "5c5171ba73f2",
+            "67e4bf957003",
+            "744612b11ea8",
+            "04f7e32fe278",
+            "6e085bd5049d",
+            "b101fd1e1f74",
+            "203d9c5a18be"
+          ]
+        },
+        "residence": {
+          "category": "residence",
+          "first_relevant_rank": 3,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top_ids": [
+            "3501e3d428f4",
+            "33106fa0c9bc",
+            "6a08c7d4821d",
+            "703996d09a3f",
+            "37fa7698e23d",
+            "24e869b0a2be",
+            "6c87ac0de3cc",
+            "f500075d8728",
+            "24adf0d9d75c",
+            "fbed8045ffc8"
+          ]
+        },
+        "ret_due": {
+          "category": "compliance",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "8f42cecdd7f8",
+            "2eb8969a32a1",
+            "fb5e4db1e43d",
+            "24f2136b1941",
+            "eb08231fbe89",
+            "71e8f35accee",
+            "60a46608eca7",
+            "933c5825df51",
+            "e1aac5bc6fbb",
+            "5b4b58e86c8b"
+          ]
+        },
+        "sal_gratuity": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "2a1d172bfd3e",
+            "ba73eac891af",
+            "74b389246b5e",
+            "a9288f31994d",
+            "2db933779e98",
+            "06bea9bac531",
+            "288d5144c51d",
+            "76d42706c4f7",
+            "15e4e12058d9",
+            "1a07e4bbdfb3"
+          ]
+        },
+        "sal_leave": {
+          "category": "exemptions",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "8992d46ddda5",
+            "15e4e12058d9",
+            "1a07e4bbdfb3",
+            "96f459863c42",
+            "40e89d9b13bd",
+            "6ceb53994cfa",
+            "77de17408404",
+            "b07913d37508",
+            "61248716f279",
+            "83647b7290bf"
+          ]
+        },
+        "sal_perq": {
+          "category": "salary",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "d4bdf7040955",
+            "edb0f47de575",
+            "7bf75ff0b40a",
+            "770f1889f78e",
+            "3ef7f6c9c694",
+            "fbed91eb6286",
+            "7b4fe626f56f",
+            "d3a1287104a0",
+            "8780f73983c1",
+            "9d6de8704c53"
+          ]
+        },
+        "surcharge": {
+          "category": "slabs",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "da97ab40190a",
+            "9dd7702cfee7",
+            "a8845a32eb00",
+            "ea8beb3c72be",
+            "b83a9b52572f",
+            "f56e45eded27",
+            "dbcc58dffd95",
+            "6f4a10010a8a",
+            "b0a442b43aa5",
+            "c98e4c527bd9"
+          ]
+        },
+        "tax_year": {
+          "category": "transition",
+          "first_relevant_rank": 1,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "top_ids": [
+            "ff53a79008f1",
+            "68deefaa0148",
+            "15538f82a6e1",
+            "c26beb2b3808",
+            "703996d09a3f",
+            "04f7e32fe278",
+            "e1aac5bc6fbb",
+            "b84360089aea",
+            "eedc6db69ba4",
+            "4cdf991484b3"
+          ]
+        },
+        "tds_rent": {
+          "category": "tds",
+          "first_relevant_rank": null,
+          "hit@10": 0.0,
+          "hit@5": 0.0,
+          "mrr@10": 0.0,
+          "top_ids": [
+            "4c9438e52195",
+            "ecd3db0ac01f",
+            "24697313694b",
+            "b33b53a5f653",
+            "750892f84166",
+            "6b504d64ad3d",
+            "e120a7a8472a",
+            "de38234eef24",
+            "95e42f4f1754",
+            "513e98b44dde"
+          ]
+        },
+        "tds_salary": {
+          "category": "tds",
+          "first_relevant_rank": 4,
+          "hit@10": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.25,
+          "top_ids": [
+            "c59aef708364",
+            "750892f84166",
+            "24697313694b",
+            "7bf75ff0b40a",
+            "b33b53a5f653",
+            "57e637add5c9",
+            "fbed91eb6286",
+            "4d6b0e92b8cb",
+            "edb0f47de575",
+            "e120a7a8472a"
+          ]
+        }
+      }
+    }
+  },
+  "dense_backend": "exact",
+  "mode": "retrieval",
+  "n_items": 42
+}

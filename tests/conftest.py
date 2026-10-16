@@ -45,3 +45,10 @@ def fake_client():
         completions = FakeCompletions(script)
         return SimpleNamespace(chat=SimpleNamespace(completions=completions)), completions
     return _make
+
+
+@pytest.fixture(autouse=True)
+def no_query_log(monkeypatch):
+    """Tests must never append to the developer's logs/queries.jsonl."""
+    import src.config
+    monkeypatch.setattr(src.config, "QUERY_LOG_PATH", "")

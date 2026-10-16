@@ -13,14 +13,24 @@ _DIGIT_COMMA = re.compile(r"(?<=\d),(?=\d)")
 _TOKEN = re.compile(r"[a-z0-9]+(?:[a-z0-9./\-]*[a-z0-9])?")
 
 
+# Question words and function words. They carry no topic, but because questions
+# start with them ("What are the ...") they otherwise add noise to BM25 scores.
+STOPWORDS = frozenset("""
+a about am an and any are as at be been being but by can could did do does doing
+for from had has have how i if in into is it its me my of on or our shall should
+so than that the their them then there these this those to was we were what when
+where which while who whom why will with would you your
+""".split())
+
+
 def tokenize(text: str) -> list[str]:
     """
     Lowercase, drop the rupee sign, and collapse digit-group commas so that
     "₹1,50,000", "Rs. 1,50,000" and "150000" all yield the token "150000".
-    Single-character tokens are dropped.
+    Single-character tokens and STOPWORDS are dropped.
     """
     text = _DIGIT_COMMA.sub("", text.lower()).replace("₹", " ")
-    return [t for t in _TOKEN.findall(text) if len(t) > 1]
+    return [t for t in _TOKEN.findall(text) if len(t) > 1 and t not in STOPWORDS]
 
 
 # ── Normalisation of extracted PDF text ───────────────────────────────────

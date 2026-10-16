@@ -28,7 +28,12 @@ Chroma's HNSW query is approximate. It returned different dense top-10s between 
 | file | what |
 |---|---|
 | `results/baseline_pre_changes.*` | Original indexes (before normalisation / section refs / dedup), tightened gold set |
-| `results/post_changes.*` | Rebuilt indexes after the B3 changes — **the CI regression baseline** |
+| `results/post_changes.*` | Rebuilt indexes after the B3 changes (previous CI baseline) |
+| `results/post_rechunk.*` | Full re-chunk from the PDFs (page numbers added); retrieval unchanged except dense |
+| `results/n1_titles*.*` | Section-title header in front of chunks (both indexes / BM25 only) — rejected |
+| `results/n1_llm_rewrite.*` | `hybrid` vs `hybrid_llm` (LLM keyword rewrite for BM25; 42 LLM calls) — rejected |
+| `results/n1_final.*` | Stopwords + BM25 query expansion + weighted RRF (1.0 / 1.5) — **the CI regression baseline** |
+| `results/gen_smoke_n1.json` | 6 end-to-end answers on the n1_final configuration |
 | `results/post_changes_query_prefix.*` | Same, with `DENSE_QUERY_PREFIX` set to the bge query instruction (rejected: dense recall@5 0.738 → 0.714) |
 | `results/gen_smoke_post_changes.json` | 6 end-to-end answers (`eval/run_generation.py`) with model, latency, tokens and citation check — for manual review, not auto-scored |
 
@@ -38,8 +43,14 @@ Summary (hybrid, exact dense backend):
 |---|---|---|---|
 | baseline_pre_changes | 0.809 | 0.905 | 0.688 |
 | post_changes | 0.809 | 0.881 | 0.686 |
+| post_rechunk | 0.809 | 0.881 | 0.686 |
+| n1_final | **0.952** | **0.952** | **0.749** |
 
-The B3 changes were retrieval-neutral on this gold set (5 items moved by about one rank, one fell out of the top 10). Their value is in data quality (section refs on every Act/Rules chunk, ₹ restored, duplicates removed, no pickle), not in measured recall. `q1_slabs` still misses: the rate table (Section 202) uses none of the words a user asks with ("slab", "new regime").
+`n1_final` was selected on these same 42 questions (a small grid over the BM25 RRF weight 1–3 and candidate depth 10/20/30, with and without the section-title header); weights 1.5–3 tie on recall@5, so the choice is not knife-edge, but the numbers are optimistic. Still missed: `q1_slabs`, `tds_rent`.
+
+The eval always measures the committed base corpus: `run_eval` points `USER_DOCS_DIR` at an empty location so uploaded documents never change the numbers.
+
+The B3 changes were retrieval-neutral on this gold set (5 items moved by about one rank, one fell out of the top 10). Their value is in data quality (section refs on every Act/Rules chunk, ₹ restored, duplicates removed, no pickle), not in measured recall. At that point `q1_slabs` missed because the rate table (Section 202) uses none of the words a user asks with ("slab", "new regime"); with expansion it is still outranked (see `n1_final`).
 
 ## Generation smoke eval
 ```

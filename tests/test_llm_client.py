@@ -76,3 +76,42 @@ def test_no_model_message_is_actionable(fake_client, monkeypatch):
     client, _ = fake_client({})
     with pytest.raises(LLMConfigError, match="LLM_MODEL"):
         chat_completion(MSGS, "k", "u", model="", fallbacks=[], client=client)
+
+
+# ── probe_models ─────────────────────────────────────────────────────────
+def test_probe_stops_at_first_working_model(fake_client):
+    from src.llm_client import probe_models
+    client, comp = fake_client({"a": _rate_limit(), "b": "OK", "c": "unused"})
+    out = probe_models("k", "u", ["a", "b", "c"], client=client)
+    assert out["working"] == "b"
+    assert comp.calls == ["a", "b"]
+    assert out["ordered"] == ["b", "c", "a"]  # working, untested, failed
+    assert out["status"] == {"a": "RateLimitError 429", "b": "ok", "c": "untested"}
+
+
+def test_probe_all_fail_returns_no_working_model(fake_client):
+    from src.llm_client import probe_models
+    client, _ = fake_client({"a": _timeout(), "b": _status(openai.NotFoundError, 404)})
+    out = probe_models("k", "u", ["a", "b"], client=client)
+    assert out["working"] is None
+    assert out["status"]["b"] == "NotFoundError 404"
+
+
+def test_probe_bad_key_raises_config_error(fake_client):
+    from src.llm_client import LLMConfigError, probe_models
+    client, comp = fake_client({"a": _status(openai.AuthenticationError, 401), "b": "OK"})
+    with pytest.raises(LLMConfigError):
+        probe_models("k", "u", ["a", "b"], client=client)
+    assert comp.calls == ["a"]
+
+
+def test_probe_empty_reply_still_counts_as_reachable(fake_client):
+    from src.llm_client import probe_models
+    client, _ = fake_client({"a": None})
+    assert probe_models("k", "u", ["a"], client=client)["working"] == "a"
+
+
+def test_probe_requires_models():
+    from src.llm_client import LLMConfigError, probe_models
+    with pytest.raises(LLMConfigError):
+        probe_models("k", "u", [], client=object())
